@@ -32,3 +32,6 @@ int cmd_rgb_setup(){
     
     return i-CMD_RGB_START;
 }
+
+// Example
+// white,silver,grey,black,red,maroon,yellow,olive,lime,green,aqua,teal,blue,navy,fuchsia,purple,

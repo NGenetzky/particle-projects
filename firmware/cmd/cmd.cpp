@@ -60,7 +60,7 @@ void do_handler(const char *topic, const char *data){
 
 // Exposed to other files.
 int cmd_set(unsigned int uid, const char *s, int (*f) (void) ){
-    if(cmds.size() < uid){
+    if(cmds.size() <= uid){
         // Assign the command to the next open index.
         cmds.push_back( Cmd(uid, s, f) );
         return cmds.size();
@@ -87,7 +87,7 @@ int execute(unsigned int uid){
 
 /// Private (ish)
 Cmd cmd_get(unsigned int uid){
-    if(cmds.size() < uid){
+    if(cmds.size() <= uid){
         // Get Command by uid.
         for (auto c : cmds){
             if (c.uid == uid) {
