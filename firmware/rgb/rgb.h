@@ -9,6 +9,7 @@
 
 int rgb_release();
 int rgb_color(int r, int g, int b); // Takes control and sets color
+int rgb_color(int v); // Takes control and sets color
 int rgb_create_value(int r, int g, int b);
 
 // Colors from "https://en.wikipedia.org/wiki/Web_colors#HTML_color_names"

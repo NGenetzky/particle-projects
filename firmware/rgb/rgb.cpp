@@ -7,6 +7,13 @@
 int rgb_release(){
     RGB.control(false); return 0;
 }
+
+int rgb_color(int r, int g, int b){ // Takes control and sets color
+    RGB.control(true);
+    RGB.color(r,g,b);
+    return 0;
+}
+
 int rgb_color(int v){ // Takes control and sets color
     RGB.control(true);
     // Uses Bit Masks and Bit shifting 

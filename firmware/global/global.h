@@ -8,6 +8,7 @@ const int ANALOG_MAX = 4095;
 const double ANALOG_RES = 0.0008;
 
 // Limitations
+const int MAX_ARG_LENGTH = 63; // https://docs.particle.io/reference/firmware/photon/#particle-function-
 const int MAX_PUBLISH_LENGTH = 255;
 const int MAX_VARIABLE_LENGTH = 622;
 const int MAX_NAME_LENGTH = 12;
