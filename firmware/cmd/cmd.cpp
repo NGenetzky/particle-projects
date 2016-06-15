@@ -10,6 +10,8 @@
 #define DO_FUNCTION 
 #define DO_SUBSCRIBE 
     // Subscribe allows the command to be process by multiple photons.
+    
+extern void info(const char * name, const char * data);
 
 std::vector<Cmd> cmds;
 const int BUFF_LENGTH = MAX_VARIABLE_LENGTH; // https://community.particle.io/t/variable-of-string-type/6365/4?u=ngenetzky

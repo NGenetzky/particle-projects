@@ -1,11 +1,14 @@
 #include "put_rgb.h"
 
+#include "node.h"
 #include "put.h"
 #include "rgb.h"
 
-int setup_put_rgb(){
-    node_set(575, "rgb", put_rgb);
-    return 1;
+int put_rgb_setup(unsigned int start){
+    auto i = start;
+    node_set(i, "rgb");
+    add_put(i, put_rgb);
+    return ++i-start;
 }
 
 int put_rgb(const char *s){
