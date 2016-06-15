@@ -1,6 +1,10 @@
 #include "i2c_utility.h"
 #include "application.h"
 
+#include <vector>
+
+std::vector<char> i2c_data;
+
 extern void info(const char * name, const char * data);
 const int I2C_BUFFER_SIZE = 32;
 
@@ -35,17 +39,21 @@ int I2C_setup_slave(int my_address){
 }
 
 void I2C_on_receive_default(int bytes){
-    char buff[I2C_BUFFER_SIZE +1]; buff[I2C_BUFFER_SIZE +1] ='\0';
-    if(I2C_BUFFER_SIZE < bytes){
-        bytes = I2C_BUFFER_SIZE;
+    for(int i=0; i< bytes; i++){
+        i2c_data.push_back(Wire.read());
     }
-    if(0 < bytes){
-        for(int i=0; i< bytes; i++){
-            buff[i] = Wire.read();
-        }
+    
+    // char buff[I2C_BUFFER_SIZE +1]; buff[I2C_BUFFER_SIZE] ='\0';
+    // if(I2C_BUFFER_SIZE < bytes){
+    //     bytes = I2C_BUFFER_SIZE;
+    // }
+    // if(0 < bytes){
+    //     for(int i=0; i< bytes; i++){
+    //         buff[i] = Wire.read();
+    //     }
         
-        info("i2c_in", buff);
-    }
+    //     info("i2c_in", buff);
+    // }
 }
 
 void I2C_end_transmission_debug(int ret_code){

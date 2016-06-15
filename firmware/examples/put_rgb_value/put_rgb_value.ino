@@ -19,6 +19,8 @@
 // inserted in by the user, or can be manipulated.
 #include "wreg.h"
 
+#include "node.h"
+
 // CMD { enables user to call commands (functions with no arguments).
 #include "cmd.h"        // cmd_setup();
 #include "cmd_board.h"  // cmd_board_setup();
@@ -84,6 +86,12 @@ void serialEvent1(){
 }
 // } SPECIAL FUNCTIONS  -------------------------------------------------------
 
+static
+int info_echo(const char *msg){
+    info("echo", msg);
+    return 0;
+}
+
 void setup_exposed_cmds(){
     // Subscribe to general events
     cmd_setup(); // Adds the "do" function and cmds variable
@@ -94,6 +102,11 @@ void setup_exposed_cmds(){
 
 void setup_nodes(){
     put_setup();
-    node_set(1, "wreg", wreg_set);
+    node_set(0, "ndef");
+    add_put(0, info_echo);
+    
+    node_set(1, "wreg");
+    add_put(1, wreg_set);
+    
     setup_put_rgb();
 }

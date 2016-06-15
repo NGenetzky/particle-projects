@@ -17,12 +17,14 @@ files+=" global/global.*"
 files+=" board/* cmd/cmd_board.*"
 files+=" rgb/* cmd/cmd_rgb.*"
 files+=" logger/logger.*"
-
-# Example Files
-files+=" examples/put_rgb_value/put_rgb_value.ino"
 files+=" put/put.* put/put_rgb.*"
 files+=" wreg/wreg.*"
 files+=" node/node.*"
+
+# Example Files
+files+=" examples/i2c_write/i2c_write.ino"
+files+=" i2c/i2c_utility.* cmd/cmd_i2c*"
+files+=" post/post.*"
 ################################################################################
 
 particle flash $device $files
