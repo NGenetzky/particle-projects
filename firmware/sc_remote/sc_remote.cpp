@@ -2,7 +2,11 @@
 #include <limits>
 #include "application.h"
 
+#include "cmd.h"
 #include "global.h"
+
+#include "rgb.h"
+#include "cmd_rgb.h"
 
 extern void info(const char * name, const char * data);
 
@@ -160,91 +164,244 @@ void variable_sc_remote(){
     Particle.variable("sc_remote", data_string);
 }
 void update(){
-    sprintf(data_string, "(%u,%u),(%u,%u),(%u,%u,%u)",
+    sprintf(data_string, "%u,%u,%u,%u,%u,%u,%u",
             a_in.pot1, a_in.pot2, a_in.joyx, a_in.joyy,
             d_in.sw1, d_in.sw2, d_in.sw3);
 }
 
-void poll_sw1(){
-    if( d_in.sw1 ){
-        if( SW_INTERVAL * 10 < d_in.sw1 ){
-            led3_on();
-        } else if( SW_INTERVAL * 4 < d_in.sw1 ){
-            led2_on();
-        } else if( SW_INTERVAL * 1 < d_in.sw1 ){
+//const unsigned long SW_INTERVAL = 250 ; // unit: microseconds // 10ms
+static void
+on_sw1_for_x_intervals(unsigned i){
+    const int CMD_RGB_START = 550;
+    switch(i){
+        case 0:
+        case 1:
             led1_on();
-        } else {
-        }
-        
+            led2_off();
+            led3_off();
+            rgb_color(COLOR_GREEN);
+            break;
+
+        case 2:
+        case 3:
+        case 4: // 100ms = 4* 250ms
+            led1_on();
+            led2_on();
+            led3_off();
+            rgb_color(COLOR_YELLOW);
+            break;
+
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+            led1_on();
+            led2_on();
+            led3_on();
+            rgb_color(COLOR_RED);
+            break;
+
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+
+
+        default:
+            execute(550); // Release the RGB
+            Particle.publish("scr::sw1", String(i), 60, PRIVATE);
+    }
+}
+
+static void
+on_sw2_for_x_intervals(unsigned i){
+    const int CMD_RGB_START = 550;
+    switch(i){
+        case 0:
+        case 1:
+            led1_on();
+            led2_off();
+            led3_off();
+            // Modify GREEN BLUE
+            rgb_color(0, a_in.pot1, a_in.pot2);
+            break;
+
+        case 2:
+        case 3:
+        case 4: // 100ms = 4* 250ms
+            led1_off();
+            led2_on();
+            led3_off();
+            // Modify RED and BLUE
+            rgb_color(a_in.pot1, 0, a_in.pot2);
+            break;
+
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+            led1_off();
+            led2_off();
+            led3_on();
+            // Modify RED and GREEN
+            rgb_color(a_in.pot1, a_in.pot2, 0);
+            execute(1); // Publish cmds
+            break;
+
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+
+        default:
+            led1_off();
+            led2_off();
+            led3_off();
+            execute(550); // Release the RGB
+            Particle.publish("scr::sw2", String(i), 60, PRIVATE);
+    }
+}
+
+
+//const unsigned long SW_INTERVAL = 250 ; // unit: microseconds // 10ms
+static void
+on_sw3_for_x_intervals(unsigned i){
+    const int CMD_RGB_START = 550;
+    switch(i){
+        case 0:
+        case 1:
+            led1_off();
+            led2_off();
+            led3_off();
+
+            thingspeak_analog();
+            break;
+
+        case 2:
+        case 3:
+        case 4: // 100ms = 4* 250ms
+            led1_on();
+            led2_on();
+            led3_off();
+            rgb_color(COLOR_YELLOW);
+            break;
+
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+            led1_on();
+            led2_on();
+            led3_on();
+            rgb_color(COLOR_RED);
+            break;
+
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+
+
+        default:
+            execute(550); // Release the RGB
+            Particle.publish("scr::sw3", String(i), 60, PRIVATE);
+    }
+}
+
+
+void poll_sw1(){
+    const int CMD_RGB_START = 550;
+
+
+    if( d_in.sw1 ){
+        unsigned x = (d_in.sw1 / SW_INTERVAL);
+        on_sw1_for_x_intervals(x);
+
         Particle.publish("scr::sw1", String(d_in.sw1), 60, PRIVATE);
         d_in.sw1 = 0; // Zero the duration.
     }
 }
 
-void poll_sw2(){
+static void
+poll_sw2(){
     if( d_in.sw2 ){
-        thingspeak_analog();
-        
+
+        unsigned x = (d_in.sw2 / SW_INTERVAL);
+        on_sw2_for_x_intervals(x);
+
         Particle.publish("scr::sw2", String(d_in.sw2), 60, PRIVATE);
-        d_in.sw2 = 0;
+        d_in.sw2 = 0;// Zero the duration.
     }
 }
 
-void poll_sw3(){
+static void
+poll_sw3(){
     if( d_in.sw3 ){
-        led1_off();
-        led2_off();
-        led3_off();
-        
+
+        unsigned x = (d_in.sw3 / SW_INTERVAL);
+        on_sw3_for_x_intervals(x);
+
         Particle.publish("scr::sw3", String(d_in.sw3), 60, PRIVATE);
-        d_in.sw3 = 0;
+        d_in.sw3 = 0;// Zero the duration.
     }
 }
 
-void poll_sw4(){
+static void
+poll_sw4(){
     if( d_in.sw4 ){
         led1_on();
         led2_on();
         led3_on();
-        
+
         Particle.publish("scr::sw4", String(d_in.sw4), 60, PRIVATE);
-        d_in.sw4 = 0;
+        d_in.sw4 = 0;// Zero the duration.
     }
 }
 
+// Timer thingspeak_tmr()
+Timer thingspeak_tmr(5000, thingspeak_analog);
 void setup(){
     pinMode( LED1, OUTPUT );
     pinMode( LED2, OUTPUT );
     pinMode( LED3, OUTPUT );
-    
+
     pinMode( SW1, INPUT );
     attachInterrupt( SW1, on_sw1, CHANGE, 13);
-    
+
     pinMode( SW2, INPUT );
     attachInterrupt( SW2, on_sw2, CHANGE, 13);
-    
+
     pinMode( SW3, INPUT );
     attachInterrupt( SW3, on_sw3, CHANGE, 13);
-    
+
     pinMode( SW4, INPUT );
     attachInterrupt( SW4, on_sw4, CHANGE, 13);
-    
-    // Note: do not set the pinMode() with analogRead(). The pinMode() is 
+
+    // Note: do not set the pinMode() with analogRead(). The pinMode() is
     // automatically set to AN_INPUT the first time analogRead() is called
     // src: https://docs.particle.io/reference/firmware/photon/#analogread-adc-
     // A0 // POT1
     // A1 // POT2
     // A2 // pin for direction X of joystick
     // A3 // pin for direction Y of joystick
+
+
+    thingspeak_tmr.start();
 }
 
 void loop(){
     // digital values are updated automatically
     read_analog(); // Read analog values
-    
+
     // Updates the data string that is exposed via the cloud.
     update();
-    
+
     poll_sw1();
     poll_sw2();
     poll_sw3();

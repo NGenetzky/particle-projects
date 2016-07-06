@@ -15,6 +15,7 @@ void thingspeak_analog();
 void update();
 void read_analog();
 
+void variable_sc_remote();
 void setup();
 void loop();
 

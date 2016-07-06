@@ -65,14 +65,16 @@ void setup(){
     if(Particle.connected() == false){
         Particle.connect();
     }
-    
+
     cmd_setup(); // Adds the "do" function and cmds variable
     setup_exposed_cmds();
-    
+
     setup_nodes();
-    
+
     SCR::setup();
-    
+    SCR::variable_sc_remote();
+
+    timer_2sec.start();
 }
 
 // This routine gets called repeatedly, like once every 5-15 milliseconds.
@@ -104,6 +106,10 @@ void serialEvent1(){
 void per_2seconds(){
     noInterrupts(); // Don't interrupt me during a timer interrupt.
 
+    // publish to dweet.io
+
+    // publish to thinkspeak
+
     interrupts();
 }
 
@@ -111,6 +117,8 @@ void setup_exposed_cmds(){
     // Subscribe to general events
     cmd_board_setup();
     cmd_rgb_setup();
+
+    // Done with setup
     cmd_update(); // updates the "cmds" variable.
 }
 
