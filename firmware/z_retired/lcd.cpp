@@ -1,4 +1,3 @@
-
 #include "lcd.h"
 #include "application.h"
 
@@ -6,47 +5,40 @@
 
 LiquidCrystal_I2C *lcd;
 
+
 // {{ Declare a timer
 #if defined (STM32F10X_MD) // Core hardware specific code.
 // Particle Core does not support any code utilizing Software Timers.
 #include "SparkIntervalTimer.h"
 IntervalTimer lcd_timer;
 #endif
-
+// TODO: Should be for photon or electron
 #if defined (STM32F2XX) // Photon hardware specific code.
 Timer lcd_timer(1000, lcd_update); //(period, callback, one_shot)
 #endif
 // Declare a timer }}
 
-void lcd_setup(){
+void lcd_setup(unsigned i2c_address){
     Particle.function("lcd", lcd_print_upto60);
-    
-    lcd = new LiquidCrystal_I2C(39, 20, 4);
+
+    lcd = new LiquidCrystal_I2C(i2c_address, 20, 4);
     lcd->init();
     lcd->backlight();
     lcd->clear();
     // Print header. Begining is later overwritten by clock
     lcd->print("00:00:00       lcd>>");
-    
+
 
     // {{ Start the timer
     #if defined (STM32F10X_MD) // Core hardware specific code.
     // Particle Core does not support any code utilizing Software Timers.
     lcd_timer.begin(lcd_update, 2*1000, hmSec); // hmSec= Half Milisecond
     #endif
-    
+
     #if defined (STM32F2XX) // Photon hardware specific code.
     lcd_timer.start();
     #endif
     // Start the timer }}
-}
-
-int lcd_cli (int argc, char* argv[]){
-    for(auto i=0; i<argc; ++i){
-        lcd_print_upto60(String(argv[i]));
-        delay(2000);
-    }
-    return 0;
 }
 
 void lcd_update(){
@@ -66,7 +58,7 @@ int lcd_print_upto60(String args){
         } else if(i==40){
             lcd->setCursor(0,3);
         }
-        
+
         if(i<len){
             lcd->print(args.charAt(i));
         } else {

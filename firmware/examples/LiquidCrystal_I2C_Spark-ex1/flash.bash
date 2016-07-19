@@ -12,12 +12,6 @@ fi
 
 # Common Base Files
 cd firmware
-files+=" cmd/cmd.*"
-files+=" global/global.*"
-files+=" board/* cmd/cmd_board.*"
-files+=" rgb/* cmd/cmd_rgb.*"
-files+=" logger/logger.*"
-files+=" i2c/i2c_utility.* cmd/cmd_i2c.*"
 
 # Libraries
 files+=" lib/LiquidCrystal_I2C_Spark/*"
