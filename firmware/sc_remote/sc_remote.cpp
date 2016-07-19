@@ -148,14 +148,12 @@ void read_analog(){
 }
 void thingspeak_analog(){
     // TODO: Implement without String
-    String json = String("{\"1\":\""
-        + String(a_in.pot1)
-        + "\",\"2\":\""
-        + String(a_in.pot2)
-        + "\",\"3\":\""
-        + String(a_in.joyx)
-        + "\",\"4\":\""
-        + String(a_in.joyy)
+    String json = String(
+          "{\"1\":\"" + String(millis())
+        + "\",\"2\":\"" + String(a_in.pot1)
+        + "\",\"3\":\"" + String(a_in.pot2)
+        + "\",\"4\":\"" + String(a_in.joyx)
+        + "\",\"5\":\"" + String(a_in.joyy)
         + "\"}");
     Particle.publish("thingspeak", json, 60, PRIVATE);
 }
@@ -164,7 +162,7 @@ void variable_sc_remote(){
     Particle.variable("sc_remote", data_string);
 }
 void update(){
-    sprintf(data_string, "%u,%u,%u,%u,%u,%u,%u",
+    sprintf(data_string, "%u,%u,%u,%u,%u,%u,%u,%u", millis(),
             a_in.pot1, a_in.pot2, a_in.joyx, a_in.joyy,
             d_in.sw1, d_in.sw2, d_in.sw3);
 }
