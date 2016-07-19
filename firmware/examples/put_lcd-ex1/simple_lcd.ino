@@ -18,6 +18,7 @@
 #include "logger.h"
 
 #include "node.h"
+#include "node_var.h"
 
 // CMD { enables user to call commands (functions with no arguments).
 #include "cmd.h"        // cmd_setup();
@@ -96,6 +97,8 @@ void setup(){
     put_do_setup(4); // 1
     put_lcd_setup(5, lcd); // 2
     // PUT }
+
+    node_var_setup(); // exposes "nodes" variable
 
     timer_2sec.start();
 }

@@ -19,6 +19,7 @@ files+=" rgb/* cmd/cmd_rgb.*"
 files+=" logger/logger.*"
 files+=" put/put.* put/put_rgb.* put/put_do*"
 files+=" node/node.*"
+files+=" node/node_var.*"
 files+=" put/put_lcd.*"
 
 # Libraries

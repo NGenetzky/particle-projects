@@ -7,7 +7,7 @@ const unsigned int MAX_PATH_LENGTH = MAX_NAME_LENGTH;
 struct Node {
     Id uid;
     char path[MAX_PATH_LENGTH];
-    
+
     Node() = default;
     Node(Id, const char*);
 };
@@ -20,6 +20,7 @@ Id node_lookup(const char *path);
 // Find an existing post from the name of its node.
 Id find_key(const char *key);
 
+int nodes_to_str(char *nodes_str);
 
 // Approximatiely the virtual data of this node. Minus the path.
 // struct NodeData{
