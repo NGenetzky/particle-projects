@@ -1,13 +1,13 @@
 
 trap 'echo ">> $BASH_COMMAND"' DEBUG
 if [ "$1" ]; then
-    master=$1 # First argument should be nice to flash.
+    master=$1 # First argument should be device to flash.
 else
     exit 1;
 fi
 
 if [ "$2" ]; then
-    slave=$2 # First argument should be nice to flash.
+    slave=$2 # First argument should be device to flash.
 else
     exit 1;
 fi
