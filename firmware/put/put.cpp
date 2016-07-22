@@ -10,10 +10,10 @@ extern void info(const char * name, const char * data);
 int put_setup(){
     bool success;
     Particle.function("put", put_function);
-    
+
     success = Particle.subscribe("put", put_handler, MY_DEVICES); // Requires --private flag.
     if( !success ){ error(1000); }
-    
+
     return success;
 }
 
@@ -32,22 +32,22 @@ int put_kv_pairs(const char *data){
     // Copy portion containing path into a mutatable buffer
     char path[MAX_PATH_LENGTH+1]; path[MAX_PATH_LENGTH]='\0';
     strncpy(path, data, MAX_PATH_LENGTH);
-    
+
     // Find first = sign.
     char* p_equal = strchr(path, '=');
     // End the string at the = sign.
     *p_equal = '\0';
-    
+
     // Set value to characters after the equal sign.
     char *p_value = strchr(data, '='); p_value++;
-    
+
     // Identify the key with a lookup.
     Id uid = find_key(path);
-    
+
     char debug[MAX_PUBLISH_LENGTH];
     sprintf(debug, "(%u:%s)=%s", uid, path, p_value);
     info("echo_PUT", debug);
-    
+
     // Put the value.
     return put(uid, p_value);
 }
