@@ -17,7 +17,8 @@ cd firmware
 files+=" lib/LiquidCrystal_I2C_Spark/*"
 
 # Example Files
-files+=" examples/i2c_lcd_clock/ClockExample.ino"
+files+=" examples/LiquidCrystal_I2C_Spark-ex1/ClockExample.ino"
+
 ################################################################################
 
 particle flash $device $files
