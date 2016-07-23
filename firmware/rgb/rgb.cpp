@@ -2,8 +2,6 @@
 #include "application.h"
 #include "rgb.h"
 
-#include "cmd.h"
-
 int rgb_release(){
     RGB.control(false); return 0;
 }
