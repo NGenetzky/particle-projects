@@ -15,10 +15,10 @@
 // } Public Library includes
 
 // { Personal Libraries -------------------------------------------------------
-#include "global/global.h"
+#include "global.h"
 
 // Provides access to functionality that is built into the board.
-#include "board/board.h"
+// #include "board/board.h"
 
 // Provide functions to set the color of the RGB on the photon and core.
 // #include "rgb.h"
@@ -31,6 +31,8 @@
 // { User functions     -------------------------------------------------------
 
 void per_2seconds();// A timer is used to run this every 2 sec
+
+// int PF_function(String args);
 
 // } User functions     -------------------------------------------------------
 
@@ -67,6 +69,7 @@ void setup(){
         Particle.connect();
     }
 
+    // Particle.function("function", PF_function);
     // Particle.function("data", set_data);
     Particle.variable("data", data);
 
@@ -106,4 +109,12 @@ void per_2seconds(){
     interrupts();
 }
 
+// PF Particle Functions
+// int PF_function(String args){
+//     if(args.equals("led_on")){
+//         return led_on();
+//     } else if(args.equals("led_off")) {
+//         return led_off();
+//     }
+// }
 
