@@ -12,6 +12,10 @@ int rgb_color(int r, int g, int b); // Takes control and sets color
 int rgb_color(int v); // Takes control and sets color
 int rgb_create_value(int r, int g, int b);
 
+// PUT
+int put_rgb(const char *s);
+
+
 // Colors from "https://en.wikipedia.org/wiki/Web_colors#HTML_color_names"
 // (white, red, yellow, lime) are the most distinguishable
 const int COLOR_WHITE=0xFFFFFF;

@@ -1,6 +1,7 @@
 
 #include "application.h"
 #include "rgb.h"
+#include "global.h"
 
 int rgb_release(){
     RGB.control(false); return 0;
@@ -22,6 +23,26 @@ int rgb_color(int v){ // Takes control and sets color
 
 int rgb_create_value(int r, int g, int b){
     return ((0<<24)|(r<<16)|(g<<8)|(b));
+}
+
+int put_rgb(const char *s){
+    //TODO: Add null checks for strtok.
+    // Currently an invalid string has same effect as "0,0,0"
+    char args[MAX_ARG_LENGTH];
+    strncpy(args, s, MAX_ARG_LENGTH);
+
+    char *p_arg;
+    p_arg = strtok ( args, "," );
+    auto r = atoi(p_arg);
+
+    p_arg = strtok ( NULL, "," );
+    auto g = atoi(p_arg);
+
+    p_arg = strtok ( NULL, "," );
+    auto b = atoi(p_arg);
+
+    rgb_color(r,g,b);
+    return 0;
 }
 
 int rgb_white(){
