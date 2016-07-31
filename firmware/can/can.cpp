@@ -1,12 +1,14 @@
 
 #include "can.h"
 
-CANChannel can(CAN_D1_D2, 32, 32); // (pins, rxQueueSize, txQueueSize);
+CANChannel *p_can;
 
-int CAN_setup(){
-    can.begin(125000); // pick the baud rate for your network
+int CAN_setup(CANChannel *c, unsigned int baud_rate){
+    p_can = c;
+    p_can->begin(baud_rate); // (baud)
+    // p_can->begin(baud_rate, CAN_TEST_MODE); // (baud, flags);
     // accept one message. If no filter added by user then accept all messages
-    // can.addFilter(0x100, 0x7FF); // (id, mask);
+    // p_can->addFilter(0x100, 0x7FF); // (id, mask);
     bool success = Particle.subscribe("can", CAN_event_handler, MY_DEVICES);
     if( !success ){ error(1000); }
     return success;
@@ -53,7 +55,7 @@ void CAN_send_data_as_hex(int dest, const char *data){
         strncat(one_byte, &data[i*2], 2);
         tx.data[i % 8]=atoi(one_byte);
         if((i % 8) == 7){
-            can.transmit(tx);
+            p_can->transmit(tx);
         }
     }
 }
@@ -78,7 +80,7 @@ void CAN_send_data_as_asci(int dest, const char *data){
             }
         }
         // transmitt
-        can.transmit(tx);
+        p_can->transmit(tx);
     }
 }
 
@@ -94,13 +96,13 @@ void CAN_transmit_test(){
     tx.data[5] = 'r';
     tx.data[6] = 'k';
     tx.data[7] = 's';
-    can.transmit(tx);
+    p_can->transmit(tx);
 }
 
 void CAN_receive_asci(){
     CANMessage rx;
     
-    if(can.receive(rx)) { // message received
+    if(p_can->receive(rx)) { // message received
         CAN_publish_msg_as_asci(rx);
     }
 }
@@ -108,7 +110,7 @@ void CAN_receive_asci(){
 void CAN_receive_hex(){
     CANMessage rx;
     
-    if(can.receive(rx)) { // message received
+    if(p_can->receive(rx)) { // message received
         CAN_publish_msg_as_hex(rx);
     }
 }
@@ -153,14 +155,15 @@ void CAN_publish_msg_as_asci(CANMessage msg){
 }
 
 void CAN_check_error_status(){
-    switch(can.errorStatus()){
+    // TODO: return the error status.
+    switch(p_can->errorStatus()){
         case CAN_NO_ERROR:
             break;
         case CAN_ERROR_PASSIVE:
-            Particle.publish("CAN_ERROR", "Not attempting to transmit messages but still acknowledging messages.");
+            info("CAN_ERROR", "Not attempting to transmit messages but still acknowledging messages.");
             break;
         case CAN_BUS_OFF:
-            Particle.publish("CAN_ERROR", "Not transmitting or acknowledging messages.");
+            info("CAN_ERROR", "Not transmitting or acknowledging messages.");
             break;
         default:
             break;

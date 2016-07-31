@@ -17,15 +17,14 @@ extern void error(int error_id);
 // }
 
 // CAN public
-int CAN_setup();
+int CAN_setup(CANChannel *c, unsigned int baud_rate=125000);
 int CAN_event_handler(const char *event, const char *data);
-int get_int_after_at_symbol(const char *event);
 
 // CAN.out
 void CAN_transmit_test();
 void CAN_send_data_as_hex(int dest, const char *data);
 void CAN_send_data_as_asci(int dest, const char *data);
-    
+
 // CAN.in
 void CAN_receive_hex();
 void CAN_receive_asci();
