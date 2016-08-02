@@ -1,1 +1,0 @@
-../../firmware/cmd/cmd.cpp
