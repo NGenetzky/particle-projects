@@ -9,14 +9,11 @@ cmd_board.cpp
 rgb.h
 rgb.cpp
 cmd_rgb.h
+cmd_rgb.cpp
 logger.h
 logger.cpp
-put_rgb_value.h
-put_rgb_value.cpp
 put.h
 put.cpp
-put_rgb.h
-put_rgb.cpp
 wreg.h
 wreg.cpp
 node.h
