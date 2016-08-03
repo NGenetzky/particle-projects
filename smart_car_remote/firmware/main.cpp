@@ -18,7 +18,7 @@
 #include "logger.h"
 
 #include "node.h"
-#include "node_setup.h"
+// #include "node_setup.h"
 
 // CMD { enables user to call commands (functions with no arguments).
 #include "cmd.h"        // cmd_setup();
@@ -28,7 +28,6 @@
 
 // PUT { enables user to put a value to a particular path
 #include "put.h"
-#include "put_rgb.h"
 #include "put_do.h"
 // } PUT
 
@@ -49,6 +48,10 @@ std::vector<char> s1;
 
 // } VARIABLES          -------------------------------------------------------
 
+// { USER FUNCTIONS     -------------------------------------------------------
+void per_2seconds();
+// } USER FUNCTIONS     -------------------------------------------------------
+
 // { CLASS INSTANCES    -------------------------------------------------------
 
 Timer timer_2sec(2000, per_2seconds);
@@ -58,6 +61,7 @@ Timer timer_2sec(2000, per_2seconds);
 // { SPECIAL FUNCTIONS  -------------------------------------------------------
 void setup(){
     pinMode(BOARD_LED, OUTPUT); //INPUT, INPUT_PULLUP, INPUT_PULLDOWN or OUTPUT
+    pinMode(DAC, OUTPUT); //INPUT, INPUT_PULLUP, INPUT_PULLDOWN or OUTPUT
 
     Serial.begin(9600);
     Serial1.begin(9600);
@@ -67,9 +71,16 @@ void setup(){
     }
 
     cmd_setup(); // Adds the "do" function and cmds variable
-    setup_exposed_cmds();
+    // Subscribe to general events
+    cmd_board_setup();
+    cmd_rgb_setup();
+    // Done with setup
+    cmd_update(); // updates the "cmds" variable.
 
-    setup_nodes();
+    put_setup();
+    node_set(3, "rgb");
+    add_put(3, put_rgb);
+    put_do_setup(4);
 
     SCR::setup();
     SCR::variable_sc_remote();
@@ -111,20 +122,4 @@ void per_2seconds(){
     // publish to thinkspeak
 
     interrupts();
-}
-
-void setup_exposed_cmds(){
-    // Subscribe to general events
-    cmd_board_setup();
-    cmd_rgb_setup();
-
-    // Done with setup
-    cmd_update(); // updates the "cmds" variable.
-}
-
-void setup_nodes(){
-    put_setup();
-    
-    put_rgb_setup(2); // hardcode 2
-    put_do_setup(4);
 }
