@@ -18,7 +18,7 @@
 #include "global.h"
 
 // Provides access to functionality that is built into the board.
-// #include "board/board.h"
+// #include "board.h"
 
 // Provide functions to set the color of the RGB on the photon and core.
 // #include "rgb.h"
@@ -60,6 +60,7 @@ Timer timer_2sec(2000, per_2seconds);
 // { SPECIAL FUNCTIONS  -------------------------------------------------------
 void setup(){
     pinMode(BOARD_LED, OUTPUT); //INPUT, INPUT_PULLUP, INPUT_PULLDOWN or OUTPUT
+    // pinMode(DAC, OUTPUT); //INPUT, INPUT_PULLUP, INPUT_PULLDOWN or OUTPUT
 
     Serial.begin(9600);
     Serial1.begin(9600);
