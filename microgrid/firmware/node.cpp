@@ -1,1 +1,0 @@
-../../firmware/node/node.cpp
