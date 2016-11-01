@@ -1,0 +1,1 @@
+../../firmware/node/node_var.h
