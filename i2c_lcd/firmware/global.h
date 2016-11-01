@@ -1,1 +1,0 @@
-../../firmware/global/global.h
