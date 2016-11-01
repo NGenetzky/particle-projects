@@ -6,11 +6,9 @@
 
 // { Public Library includes
 
-// Required for Particle.
-#include "application.h"
+#include "application.h" // Required for Particle.
 
-// Decodes and encodes base64 strings
-// #include "Base64.h"
+// #include "Base64.h" // Decodes and encodes base64 strings
 
 // } Public Library includes
 
