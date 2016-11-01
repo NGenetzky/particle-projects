@@ -77,7 +77,12 @@ int I2C_scan(){
     int slaves[10]= {0};
     int i_slaves=0;
     
-    I2C_setup_master(); // Must be master to scan.
+    if ( Wire.isEnabled() ) {
+        //info("I2C.setup", "reset;begin(Master)");
+        #warning Assumes that device is acting as master.
+    } else {
+        I2C_setup_master(); // Must be master to scan.
+    }
     
     for(int address = 1; address < 127; address++ ){
         Wire.beginTransmission(address);
