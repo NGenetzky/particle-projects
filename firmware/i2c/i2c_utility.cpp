@@ -3,6 +3,7 @@
 
 #include <vector>
 
+bool is_master=false;
 std::vector<char> i2c_data;
 
 extern void info(const char * name, const char * data);
@@ -16,6 +17,7 @@ int I2C_setup_master(){
         info("I2C.setup", "begin(Master)");
     }
 
+    is_master = true;
     Wire.begin();
     return 0;
 }
@@ -35,6 +37,7 @@ int I2C_setup_slave(int my_address){
     Wire.begin(my_address);                  // join i2c bus
     Wire.onReceive(I2C_on_receive_default); // register default event
     
+    is_master = false;
     return my_address;
 }
 
@@ -71,6 +74,10 @@ void I2C_end_transmission_debug(int ret_code){
   }
 }
 
+int PF_i2c_scan(String args){
+    return I2C_scan();
+}
+
 int I2C_scan(){
     char I2C_slaves[40]; // 10 address array * 4 char max.
     int error;
@@ -80,6 +87,9 @@ int I2C_scan(){
     if ( Wire.isEnabled() ) {
         //info("I2C.setup", "reset;begin(Master)");
         #warning Assumes that device is acting as master.
+        if(!is_master){
+            I2C_setup_master(); // Must be master to scan.
+        }
     } else {
         I2C_setup_master(); // Must be master to scan.
     }

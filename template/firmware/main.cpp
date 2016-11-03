@@ -15,14 +15,19 @@
 // { Personal Libraries -------------------------------------------------------
 #include "global.h"
 
+// Provides functions that inform the user. Such as:
+    // error(int)
+    // info(const char*,const char*)
+// #include "logger.h"
+
 // Provides access to functionality that is built into the board.
 // #include "board.h"
 
 // Provide functions to set the color of the RGB on the photon and core.
 // #include "rgb.h"
 
-// Provides info(const char*,const char*) and error(int) funtions
-// #include "logger.h"
+// Functions to use I2C utility functions.
+// #include "i2c_utility.h"
 
 // } Personal Libraries -------------------------------------------------------
 
