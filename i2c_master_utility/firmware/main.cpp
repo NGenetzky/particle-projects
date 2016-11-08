@@ -22,7 +22,7 @@
 // #include "rgb.h"
 
 // Functions to use I2C utility functions.
-#include "i2c_utility.h"
+#include "i2c_master_utility.h"
 
 // Provides info(const char*,const char*) and error(int) funtions
 #include "logger.h"
@@ -33,8 +33,7 @@
 
 void per_2seconds();// A timer is used to run this every 2 sec
 void per_30seconds();// A timer is used to run this every 30 sec
-
-// int PF_function(String args);
+int PF_i2c(String args);
 
 // } User functions     -------------------------------------------------------
 
@@ -47,9 +46,9 @@ SYSTEM_MODE(SEMI_AUTOMATIC); // Does not connect to cloud automatically.
 
 // { VARIABLES          -------------------------------------------------------
 
-std::vector<char> s0;
-std::vector<char> s1;
-char data[MAX_VARIABLE_LENGTH];
+// std::vector<char> s0;
+// std::vector<char> s1;
+// char data[MAX_VARIABLE_LENGTH];
 
 // } VARIABLES          -------------------------------------------------------
 
@@ -73,12 +72,12 @@ void setup(){
         Particle.connect();
     }
 
-    // Particle.function("function", PF_function);
+    Particle.function("i2c", PF_i2c);
     // Particle.function("data", set_data);
     // Particle.variable("data", data);
     //strcpy(data, "Hello World");
 
-    I2C_setup_master();
+    i2c_master::setup();
 
     //timer_2sec.start();
     timer_30sec.start();
@@ -93,40 +92,43 @@ void loop(){
 
 // Special function that will be called when serial data is recieved.
 void serialEvent(){
-    auto char_avilable = Serial.available();
+    // auto char_avilable = Serial.available();
 
-    for(auto i=0; i< char_avilable; i++){
-        s0.push_back(Serial.read());
-    }
+    // for(auto i=0; i< char_avilable; i++){
+    //     s0.push_back(Serial.read());
+    // }
 }
 
 // Special function that will be called when serial data is recieved.
 void serialEvent1(){ 
-    auto char_avilable = Serial1.available();
+    // auto char_avilable = Serial1.available();
 
-    for(auto i=0; i< char_avilable; i++){
-        s1.push_back(Serial1.read());
-    }
+    // for(auto i=0; i< char_avilable; i++){
+    //     s1.push_back(Serial1.read());
+    // }
 }
 // } SPECIAL FUNCTIONS  -------------------------------------------------------
 
 void per_2seconds(){
     noInterrupts(); // Don't interrupt me during a timer interrupt.
-    I2C_scan();
+
     interrupts();
 }
 void per_30seconds(){
     noInterrupts(); // Don't interrupt me during a timer interrupt.
-    I2C_scan();
+    i2c_master::scan();
     interrupts();
 }
 
-// PF Particle Functions
-// int PF_function(String args){
-//     if(args.equals("led_on")){
-//         return led_on();
-//     } else if(args.equals("led_off")) {
-//         return led_off();
-//     }
-// }
+//PF Particle Functions
+int PF_i2c(String args){
+    if(args.equals("setup")){
+        return i2c_master::setup();
+    } else if(args.equals("scan")) {
+        return i2c_master::scan();
+    } else {
+        error(129);
+        return -1;
+    }
+}
 
