@@ -33,6 +33,13 @@
 
 // { User functions     -------------------------------------------------------
 
+// Describe these two functions here or declare extern.
+// void info(const char * name, const char * data);
+// void error(int error_id);
+// Expect another file to provide these two methods:
+extern void void info(const char * name, const char * data);
+extern void error(int error_id);
+
 void per_2seconds();// A timer is used to run this every 2 sec
 
 // int PF_function(String args);
