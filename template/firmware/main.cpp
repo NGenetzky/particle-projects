@@ -10,12 +10,10 @@
 
 // #include "Base64.h" // Decodes and encodes base64 strings
 
-
 // } Public Library includes
 
 // { Personal Libraries -------------------------------------------------------
 #include "global.h"
-
 
 // Provides access to functionality that is built into the board.
 // #include "board.h"
@@ -28,23 +26,48 @@
 
 // } Personal Libraries -------------------------------------------------------
 
+#define USE_AUTOMATIC
+// #define USE_SEMI_AUTOMATIC
+// #define USE_MANUAL
+// #define USE_WIFI_IF
+// #define USE_CLOUD_IF
+
+#define USE_SERIAL0
+#define USE_SERIAL1
+#define USE_TIMER_2SEC
+#define USE_LOGGER
+// #define USE_CUSTOM_LOGGER
+
+// #define USE_CUSTOM_LOGGER
 // { User functions     -------------------------------------------------------
-
-// Describe these two functions here or declare extern.
-// void info(const char * name, const char * data);
-// void error(int error_id);
-// Expect another file to provide these two methods:
-
 
 // int PF_function(String args);
 
 // } User functions     -------------------------------------------------------
 
 // SYSTEM_SETUP {       -------------------------------------------------------
-//SYSTEM_MODE(AUTOMATIC); // Default. Not needed, but be explicit. 
 
-SYSTEM_MODE(SEMI_AUTOMATIC); // Does not connect to cloud automatically.
-// STARTUP(disable_cloud_ifD6()); // Connects to cloud if D6 is HIGH.
+// If SYSTEM_MODE == SEMI_AUTOMATIC
+#ifdef USE_SEMI_AUTOMATIC
+    SYSTEM_MODE(SEMI_AUTOMATIC); // Does not connect to cloud automatically.
+#elif USE_MANUAL
+    SYSTEM_MODE(MANUAL); // Default. Not needed, but be explicit. 
+#else
+    #define USE_AUTOMATIC
+    SYSTEM_MODE(AUTOMATIC); // Default. Not needed, but be explicit. 
+#endif
+
+#ifndef USE_AUTOMATIC
+    // then we can conditionally disable wifi or cloud.
+    #ifdef USE_WIFI_IFUSE_WIFI_IF
+        #include "board.h"
+        STARTUP(disable_wifi_ifD6()); // Connects to cloud if D6 is HIGH.
+    #elif defined USE_CLOUD_IF
+        #include "board.h"
+        STARTUP(disable_cloud_ifD6()); // Connects to cloud if D6 is HIGH.
+    #endif // USE_CLOUD_IF or USE_WIFI_IF
+#endif // NOT USE_AUTOMATIC 
+
 // } SYSTEM_SETUP       -------------------------------------------------------
 
 // { VARIABLES          -------------------------------------------------------
@@ -56,12 +79,6 @@ char data[MAX_VARIABLE_LENGTH];
 // { CLASS INSTANCES    -------------------------------------------------------
 
 // } CLASS INSTANCES    -------------------------------------------------------
-
-#define USE_SERIAL0
-#define USE_SERIAL1
-#define USE_TIMER_2SEC
-#define USE_LOGGER
-
 
 #ifdef USE_SERIAL0
     void serialEvent(); // Special function in Particle.
@@ -79,28 +96,44 @@ char data[MAX_VARIABLE_LENGTH];
 #endif // USE_TIMER_2SEC
 
 #ifdef USE_LOGGER
-    // Provides functions that inform the user. Such as:
+    // Many libraries expect the following functions to be defined:
         // error(int)
         // info(const char*,const char*)
+
+    // Use logger to define these functions.
     #include "logger.h"
+#elif defined USE_CUSTOM_LOGGER
+    // Many libraries expect the following functions to be defined:
+        // error(int)
+        // info(const char*,const char*)
+
+    // Could also define the functions yourself.
+    void info(const char * name, const char * data);
+    void error(int error_id);
 #else
-    extern void info(const char * name, const char * data);
-    extern void error(int error_id);
-#endif
+    #error "Must define either USE_LOGGER or USE_CUSTOM_LOGGER"
+#endif // USE_LOGGER
 
 
 // { SPECIAL FUNCTIONS  -------------------------------------------------------
 void setup(){
+    #ifndef USE_AUTOMATIC
+        // SEMI_AUTOMATIC or MANUAL
+        if(Particle.connected() == false){
+            Particle.connect();
+        }
+    #endif
+    
     pinMode(BOARD_LED, OUTPUT); //INPUT, INPUT_PULLUP, INPUT_PULLDOWN or OUTPUT
     // pinMode(DAC, OUTPUT); //INPUT, INPUT_PULLUP, INPUT_PULLDOWN or OUTPUT
 
-    Serial.begin(9600);
-    Serial1.begin(9600);
+    #ifdef USE_SERIAL0
+        Serial.begin(9600);
+    #endif // USE_SERIAL0
+    #ifdef USE_SERIAL1
+        Serial1.begin(9600);
+    #endif // USE_SERIAL1
 
-    // SEMI_AUTOMATIC
-    if(Particle.connected() == false){
-        Particle.connect();
-    }
 
     // Particle.function("function", PF_function);
     // Particle.function("data", set_data);
@@ -117,7 +150,11 @@ void setup(){
 // Spark firmware interleaves background CPU activity associated with WiFi + Cloud activity with your code. 
 // Make sure none of your code delays or blocks for too long (like more than 5 seconds), or weird things can happen.
 void loop(){
-
+    
+    
+    #ifdef USE_MANUAL
+        Particle.process();
+    #endif
 }
 
 // } SPECIAL FUNCTIONS  -------------------------------------------------------

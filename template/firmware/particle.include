@@ -1,3 +1,6 @@
 main.cpp
 global.h
 logger.h
+logger.cpp
+board.h
+board.cpp
