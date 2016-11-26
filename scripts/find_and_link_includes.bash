@@ -1,5 +1,17 @@
 #!/usr/bin/env bash
 
+# Must be run from within "firmware" directory of project.
+# Will bash commands that need to be run to create symlink.
+# Pipe the output to bash to create symlinks.
+
+# Example:
+# └─> ../../scripts/find_and_link_includes.bash ./particle.include                                                                                                                                                                           
+# ln -rs  ../../firmware/global/global.h ./global.h
+# ln -rs  ../../firmware/logger/logger.h ./logger.h
+# ┌──{ubuntu@ngenetzky-cpp-particle-dev-vim-3554998}──{/home/ubuntu/workspace/particle-projects/template/firmware}───────────────────────────────────────────────────────────────────────────────────────────────{master}──{26 Nov 19:11:52}
+# └─> ../../scripts/find_and_link_includes.bash ./particle.include | bash
+# ln: failed to create symbolic link ‘./global.h’: File exists
+
 set -e
 
 include_file=${1?"Arg 1 should be particle include."}
