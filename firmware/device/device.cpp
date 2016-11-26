@@ -25,10 +25,6 @@ int id_device(){
             return PARKER;
         case '5':
             return COMRAD;
-        case '5':
-            return COMRAD;
-        case '5':
-            return COMRAD;
         default:
             return UNKNOWN;
     }
