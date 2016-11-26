@@ -64,8 +64,8 @@ SYSTEM_MODE(SEMI_AUTOMATIC); // Does not connect to cloud automatically.
 // { VARIABLES          -------------------------------------------------------
 
 uint8_t mirror_on_D7_pin = 255; // 255 is too large to be valid pin.
-std::vector<char> s0;
-std::vector<char> s1;
+// std::vector<char> s0;
+// std::vector<char> s1;
 char data[MAX_VARIABLE_LENGTH];
 unsigned counter = 0;
 
@@ -97,7 +97,6 @@ void setup(){
     for (unsigned i = 0;  i<=13; i++){
         mcp.pinMode(i, OUTPUT);
     }
-    mirror_on_D7_setup(4);
 
     // Provide functions and variables to end user.
     Particle.function("mcp_read", PF_mcp_read);
@@ -114,10 +113,10 @@ void setup(){
 // Make sure none of your code delays or blocks for too long (like more than 5 seconds), or weird things can happen.
 void loop(){
 
-    // for (unsigned i = 0;  i<=65536-1; i++){
-    //     mcp.writeGPIOAB(i);
-    //     delay(500);
-    // }
+    for (unsigned i = 0;  i<=65536-1; i++){
+        mcp.writeGPIOAB(i);
+        delay(500);
+    }
 }
 
 // Special function that will be called when serial data is recieved.
