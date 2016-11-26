@@ -10,15 +10,12 @@
 
 // #include "Base64.h" // Decodes and encodes base64 strings
 
+
 // } Public Library includes
 
 // { Personal Libraries -------------------------------------------------------
 #include "global.h"
 
-// Provides functions that inform the user. Such as:
-    // error(int)
-    // info(const char*,const char*)
-// #include "logger.h"
 
 // Provides access to functionality that is built into the board.
 // #include "board.h"
@@ -37,10 +34,7 @@
 // void info(const char * name, const char * data);
 // void error(int error_id);
 // Expect another file to provide these two methods:
-extern void void info(const char * name, const char * data);
-extern void error(int error_id);
 
-void per_2seconds();// A timer is used to run this every 2 sec
 
 // int PF_function(String args);
 
@@ -55,17 +49,45 @@ SYSTEM_MODE(SEMI_AUTOMATIC); // Does not connect to cloud automatically.
 
 // { VARIABLES          -------------------------------------------------------
 
-std::vector<char> s0;
-std::vector<char> s1;
 char data[MAX_VARIABLE_LENGTH];
 
 // } VARIABLES          -------------------------------------------------------
 
 // { CLASS INSTANCES    -------------------------------------------------------
 
-Timer timer_2sec(2000, per_2seconds);
-
 // } CLASS INSTANCES    -------------------------------------------------------
+
+#define USE_SERIAL0
+#define USE_SERIAL1
+#define USE_TIMER_2SEC
+#define USE_LOGGER
+
+
+#ifdef USE_SERIAL0
+    void serialEvent(); // Special function in Particle.
+    std::vector<char> s0; // Vector to hold data collected from serial.
+#endif // USE_SERIAL0
+
+#ifdef USE_SERIAL1
+    void serialEvent1(); // Special function in Particle.
+    std::vector<char> s1; // Vector to hold data collected from serial.
+#endif // USE_SERIAL0
+
+#ifdef USE_TIMER_2SEC
+    void per_2seconds();// A timer is used to run this every 2 sec
+    Timer timer_2sec(2000, per_2seconds);
+#endif // USE_TIMER_2SEC
+
+#ifdef USE_LOGGER
+    // Provides functions that inform the user. Such as:
+        // error(int)
+        // info(const char*,const char*)
+    #include "logger.h"
+#else
+    extern void info(const char * name, const char * data);
+    extern void error(int error_id);
+#endif
+
 
 // { SPECIAL FUNCTIONS  -------------------------------------------------------
 void setup(){
@@ -85,7 +107,10 @@ void setup(){
     Particle.variable("data", data);
 
     strcpy(data, "Hello World");
-    timer_2sec.start();
+    
+    #ifdef USE_TIMER_2SEC
+        timer_2sec.start();
+    #endif // USE_TIMER_2SEC
 }
 
 // This routine gets called repeatedly, like once every 5-15 milliseconds.
@@ -95,30 +120,7 @@ void loop(){
 
 }
 
-// Special function that will be called when serial data is recieved.
-void serialEvent(){
-    auto char_avilable = Serial.available();
-
-    for(auto i=0; i< char_avilable; i++){
-        s0.push_back(Serial.read());
-    }
-}
-
-// Special function that will be called when serial data is recieved.
-void serialEvent1(){ 
-    auto char_avilable = Serial1.available();
-
-    for(auto i=0; i< char_avilable; i++){
-        s1.push_back(Serial1.read());
-    }
-}
 // } SPECIAL FUNCTIONS  -------------------------------------------------------
-
-void per_2seconds(){
-    noInterrupts(); // Don't interrupt me during a timer interrupt.
-
-    interrupts();
-}
 
 // PF Particle Functions
 // int PF_function(String args){
@@ -129,3 +131,36 @@ void per_2seconds(){
 //     }
 // }
 
+// TEMPLATE FUNCTIONS  { -------------------------------------------------------
+
+#ifdef USE_SERIAL0
+// Special function that will be called when serial data is recieved.
+void serialEvent(){
+    auto char_avilable = Serial.available();
+
+    for(auto i=0; i< char_avilable; i++){
+        s0.push_back(Serial.read());
+    }
+}
+#endif // USE_SERIAL0
+
+#ifdef USE_SERIAL1
+// Special function that will be called when serial data is recieved.
+void serialEvent1(){ 
+    auto char_avilable = Serial1.available();
+
+    for(auto i=0; i< char_avilable; i++){
+        s1.push_back(Serial1.read());
+    }
+}
+#endif // USE_SERIAL1
+
+#ifdef USE_TIMER_2SEC
+void per_2seconds(){
+    noInterrupts(); // Don't interrupt me during a timer interrupt.
+
+    interrupts();
+}
+#endif // USE_TIMER_2SEC
+
+// } TEMPLATE FUNCTIONS  -------------------------------------------------------
