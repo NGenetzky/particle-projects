@@ -1,22 +1,33 @@
-// STL includes
-// { Standard Includes  -------------------------------------------------------
-#include <vector>
 
-// } STL  ---------------------------------------------------------------------
+// main.cpp // Template for main.cpp for Particle devices
+
+// Set HELP at compile time with information useful for the end user.
+const char * HELP = "template:" \
+    " This is just a template";
+
+// { Configuration  -----------------------------------------------------------
+#define USE_SERIAL0
+#define USE_SERIAL1
+// #define USE_LCD
+#define USE_TIMER_2SEC
+// } Configuration  -----------------------------------------------------------
+
+// { Standard Includes  -------------------------------------------------------
+#include "application.h" // Required for Particle.
+#include <vector>
+// } Standard Includes  -------------------------------------------------------
 
 // { Public Library includes
-
-#include "application.h" // Required for Particle.
-
 // #include "Base64.h" // Decodes and encodes base64 strings
-
 // } Public Library includes
 
 // { Personal Libraries -------------------------------------------------------
+
+// Defines constants for Particle Ecosystem.
 #include "global.h"
 
 // Provides access to functionality that is built into the board.
-// #include "board.h"
+#include "board.h"
 
 // Provide functions to set the color of the RGB on the photon and core.
 // #include "rgb.h"
@@ -24,125 +35,115 @@
 // Functions to use I2C utility functions.
 // #include "i2c_utility.h"
 
+// Many libraries expect the following functions to be defined:
+    // error(int)
+    // info(const char*,const char*)
+// Use logger to define these functions.
+#include "logger.h"
+
+#ifdef USE_LCD
+#include "LiquidCrystal_I2C_Spark.h"
+#endif // USE_LCD
+
 // } Personal Libraries -------------------------------------------------------
-
-#define USE_AUTOMATIC
-// #define USE_SEMI_AUTOMATIC
-// #define USE_MANUAL
-// #define USE_WIFI_IF
-// #define USE_CLOUD_IF
-
-#define USE_SERIAL0
-#define USE_SERIAL1
-#define USE_TIMER_2SEC
-#define USE_LOGGER
-// #define USE_CUSTOM_LOGGER
-
-// #define USE_CUSTOM_LOGGER
-// { User functions     -------------------------------------------------------
-
-// int PF_function(String args);
-
-// } User functions     -------------------------------------------------------
 
 // SYSTEM_SETUP {       -------------------------------------------------------
 
-// If SYSTEM_MODE == SEMI_AUTOMATIC
-#ifdef USE_SEMI_AUTOMATIC
-    SYSTEM_MODE(SEMI_AUTOMATIC); // Does not connect to cloud automatically.
-#elif USE_MANUAL
-    SYSTEM_MODE(MANUAL); // Default. Not needed, but be explicit. 
-#else
-    #define USE_AUTOMATIC
-    SYSTEM_MODE(AUTOMATIC); // Default. Not needed, but be explicit. 
-#endif
+SYSTEM_MODE(AUTOMATIC); // Default. Not needed, but be explicit. 
+// SYSTEM_MODE(SEMI_AUTOMATIC); // Requires manual "connect()"
+// SYSTEM_MODE(MANUAL); // Requires
 
-#ifndef USE_AUTOMATIC
-    // then we can conditionally disable wifi or cloud.
-    #ifdef USE_WIFI_IFUSE_WIFI_IF
-        #include "board.h"
-        STARTUP(disable_wifi_ifD6()); // Connects to cloud if D6 is HIGH.
-    #elif defined USE_CLOUD_IF
-        #include "board.h"
-        STARTUP(disable_cloud_ifD6()); // Connects to cloud if D6 is HIGH.
-    #endif // USE_CLOUD_IF or USE_WIFI_IF
-#endif // NOT USE_AUTOMATIC 
+// then we can conditionally disable wifi or cloud.
+// Functions are defined in "board.h"
+// STARTUP(disable_wifi_ifD6()); // Connects to cloud if D6 is HIGH.
+// STARTUP(disable_cloud_ifD6()); // Connects to cloud if D6 is HIGH.
 
 // } SYSTEM_SETUP       -------------------------------------------------------
 
+// { User functions     -------------------------------------------------------
+
+int PF_do(String args);
+int PF_do_int(long int arg);
+
+
+#ifdef USE_SERIAL0
+// Special function in Particle. Called when data is recieved on Serial0.
+void serialEvent();
+#endif // USE_SERIAL0
+
+#ifdef USE_SERIAL1
+// Special function in Particle. Called when data is recieved on Serial1.
+void serialEvent1();
+#endif // USE_SERIAL0
+
+#ifdef USE_TIMER_2SEC
+void per_2seconds();// A timer is used to run this every 2 sec
+#endif // USE_TIMER_2SEC
+
+// } User functions     -------------------------------------------------------
+
 // { VARIABLES          -------------------------------------------------------
 
-char data[MAX_VARIABLE_LENGTH];
+char PV_a[MAX_VARIABLE_LENGTH];
+
+
+
+
+
+
+#ifdef USE_SERIAL0
+std::vector<char> s0; // Vector to hold data collected from serial.
+#endif // USE_SERIAL0
+
+#ifdef USE_SERIAL1
+std::vector<char> s1; // Vector to hold data collected from serial.
+#endif // USE_SERIAL0
 
 // } VARIABLES          -------------------------------------------------------
 
 // { CLASS INSTANCES    -------------------------------------------------------
 
-// } CLASS INSTANCES    -------------------------------------------------------
-
-#ifdef USE_SERIAL0
-    void serialEvent(); // Special function in Particle.
-    std::vector<char> s0; // Vector to hold data collected from serial.
-#endif // USE_SERIAL0
-
-#ifdef USE_SERIAL1
-    void serialEvent1(); // Special function in Particle.
-    std::vector<char> s1; // Vector to hold data collected from serial.
-#endif // USE_SERIAL0
+#ifdef USE_LCD
+// Connects to 20x4 LCD at I2C address 62.
+LiquidCrystal_I2C lcd(62, 20, 4);
+#endif // USE_LCD
 
 #ifdef USE_TIMER_2SEC
-    void per_2seconds();// A timer is used to run this every 2 sec
-    Timer timer_2sec(2000, per_2seconds);
+Timer timer_2sec(2000, per_2seconds); // 2000ms
 #endif // USE_TIMER_2SEC
 
-#ifdef USE_LOGGER
-    // Many libraries expect the following functions to be defined:
-        // error(int)
-        // info(const char*,const char*)
-
-    // Use logger to define these functions.
-    #include "logger.h"
-#elif defined USE_CUSTOM_LOGGER
-    // Many libraries expect the following functions to be defined:
-        // error(int)
-        // info(const char*,const char*)
-
-    // Could also define the functions yourself.
-    void info(const char * name, const char * data);
-    void error(int error_id);
-#else
-    #error "Must define either USE_LOGGER or USE_CUSTOM_LOGGER"
-#endif // USE_LOGGER
-
+// } CLASS INSTANCES    -------------------------------------------------------
 
 // { SPECIAL FUNCTIONS  -------------------------------------------------------
 void setup(){
-    #ifndef USE_AUTOMATIC
-        // SEMI_AUTOMATIC or MANUAL
-        if(Particle.connected() == false){
-            Particle.connect();
-        }
-    #endif
+    // Required if SYSTEM_MODE = SEMI_AUTOMATIC or MANUAL
+    // if(Particle.connected() == false){
+    //     Particle.connect();
+    // }
     
     pinMode(BOARD_LED, OUTPUT); //INPUT, INPUT_PULLUP, INPUT_PULLDOWN or OUTPUT
     // pinMode(DAC, OUTPUT); //INPUT, INPUT_PULLUP, INPUT_PULLDOWN or OUTPUT
 
     #ifdef USE_SERIAL0
-        Serial.begin(9600);
+    Serial.begin(9600);
     #endif // USE_SERIAL0
     #ifdef USE_SERIAL1
-        Serial1.begin(9600);
+    Serial1.begin(9600);
     #endif // USE_SERIAL1
 
+    // Up to 20 Variables
+    Particle.variable("help", HELP);
+    Particle.variable("a", PV_a);
+    
+    // Up to 15 Functions. 
+    Particle.function("do", PF_do);
+    
 
-    // Particle.function("function", PF_function);
-    // Particle.function("data", set_data);
-    Particle.variable("data", data);
-
-    strcpy(data, "Hello World");
+    strcpy(PV_a, "Hello World");
+    
     
     #ifdef USE_TIMER_2SEC
-        timer_2sec.start();
+    timer_2sec.start();
     #endif // USE_TIMER_2SEC
 }
 
@@ -152,23 +153,40 @@ void setup(){
 void loop(){
     
     
-    #ifdef USE_MANUAL
-        Particle.process();
-    #endif
+    // Required if SYSTEM_MODE = MANUAL
+    // Particle.process();
 }
 
 // } SPECIAL FUNCTIONS  -------------------------------------------------------
 
-// PF Particle Functions
-// int PF_function(String args){
-//     if(args.equals("led_on")){
-//         return led_on();
-//     } else if(args.equals("led_off")) {
-//         return led_off();
-//     }
-// }
+int PF_do(String args){
+    auto intarg = args.toInt();
+    if(intarg!=0){
+        return PF_do_int(intarg);
+    }
+    
+    if(args.equals("led_on")){
+        return led_on();
+    } else if(args.equals("led_off")) {
+        return led_off();
+    } else {
+        // Did not match any known instructions
+        return -1; // Return a error.
+    }
+}
 
-// TEMPLATE FUNCTIONS  { -------------------------------------------------------
+int PF_do_int(long int arg){
+    switch(arg){
+        case 0:
+            return led_off();
+            break;
+        case 1:
+            return led_on();
+            break;
+        default:
+            return -1;
+    }
+}
 
 #ifdef USE_SERIAL0
 // Special function that will be called when serial data is recieved.
@@ -199,5 +217,3 @@ void per_2seconds(){
     interrupts();
 }
 #endif // USE_TIMER_2SEC
-
-// } TEMPLATE FUNCTIONS  -------------------------------------------------------
