@@ -1,1 +1,0 @@
-../../firmware/lib/Adafruit_MCP23017/Adafruit_MCP23017.h

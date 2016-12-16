@@ -1,1 +1,0 @@
-../../firmware/sc_remote/sc_remote.h

@@ -1,6 +1,0 @@
-main.cpp
-global.h
-i2c_master_utility.h
-i2c_master_utility.cpp
-logger.h
-logger.cpp
