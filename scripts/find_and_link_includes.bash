@@ -17,11 +17,11 @@ set -e
 include_file=./particle.include
 [ -f $include_file ] || { echo "Can't find ./particle.include"; exit 1; }
 
-# List files in firmware
 firmware_dir=../../firmware
 [ -d $firmware_dir ] || { echo "Can't find ../../firmware"; exit 1; }
 
-firmware=$(find ../../firmware)
+# List files in firmware
+# firmware=$(find ../../firmware)
 # List current files
 # current=$(find -type f)
 
