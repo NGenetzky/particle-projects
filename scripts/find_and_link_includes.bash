@@ -14,11 +14,14 @@
 
 set -e
 
-include_file=${1?"Arg 1 should be particle include."}
+include_file=./particle.include
+[ -f $include_file ] || { echo "Can't find ./particle.include"; exit 1; }
 
 # List files in firmware
-firmware=$(find ../../firmware)
+firmware_dir=../../firmware
+[ -d $firmware_dir ] || { echo "Can't find ../../firmware"; exit 1; }
 
+firmware=$(find ../../firmware)
 # List current files
 # current=$(find -type f)
 
@@ -42,6 +45,6 @@ do
         while IFS=  read -r -d $'\0'; do
             link_to="$REPLY"
             echo "ln -rs  $link_to $link_from"
-        done < <(find ../../firmware -name $var -print0)
+        done < <(find $firmware_dir -name $var -print0)
     # fi
 done
