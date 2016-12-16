@@ -8,3 +8,5 @@ thingspeak_publish.h
 thingspeak_publish.cpp
 LiquidCrystal_I2C_Spark.h
 LiquidCrystal_I2C_Spark.cpp
+i2c_utility.h
+i2c_utility.cpp

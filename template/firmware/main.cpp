@@ -21,7 +21,14 @@ const char * HELP = "template:" \
 // } Standard Includes  -------------------------------------------------------
 
 // { Public Library includes
+
 // #include "Base64.h" // Decodes and encodes base64 strings
+// #include "Adafruit_MCP23017.h" // I2C IO Expander
+
+#ifdef USE_LCD
+#include "LiquidCrystal_I2C_Spark.h"
+#endif // USE_LCD
+
 // } Public Library includes
 
 // { Personal Libraries -------------------------------------------------------
@@ -36,7 +43,7 @@ const char * HELP = "template:" \
 // #include "rgb.h"
 
 // Functions to use I2C utility functions.
-// #include "i2c_utility.h"
+#include "i2c_utility.h"
 
 // Many libraries expect the following functions to be defined:
     // error(int)
@@ -44,9 +51,6 @@ const char * HELP = "template:" \
 // Use logger to define these functions.
 #include "logger.h"
 
-#ifdef USE_LCD
-#include "LiquidCrystal_I2C_Spark.h"
-#endif // USE_LCD
 
 #ifdef USE_THINGSPEAK
 #include "thingspeak_publish.h"
@@ -141,8 +145,8 @@ Timer timer_2sec(2000, per_2seconds); // 2000ms
 #endif // USE_TIMER_2SEC
 
 #ifdef USE_LCD
-// Connects to 20x4 LCD at I2C address 62.
-LiquidCrystal_I2C lcd(62, 20, 4);
+// Connects to 20x4 LCD at I2C address 63.
+LiquidCrystal_I2C lcd(63, 20, 4);
 #endif // USE_LCD
 
 // } CLASS INSTANCES    -------------------------------------------------------
@@ -191,6 +195,13 @@ void setup(){
 
     strcpy(PV_a, "Hello World");
     
+    #ifdef USE_LCD
+    lcd.init();
+    lcd.backlight();
+    lcd.clear();
+    lcd.setCursor(0,1);
+    lcd.print("Hello World");
+    #endif
     
     #ifdef USE_SERIAL0
     Serial.begin(9600);
@@ -226,6 +237,8 @@ int PF_do(String args){
         return led_on();
     } else if(args.equals("led_off")) {
         return led_off();
+    } else if(args.equals("i2c_scan")) {
+        return I2C_scan();
     } else {
         // Did not match any known instructions
         return -1; // Return a error.
@@ -331,7 +344,7 @@ void per_2seconds(){
 #ifdef USE_STDIN
 int PF_stdin(String args){ 
     auto char_avilable = args.length(); 
-    for(int i=0; i< char_avilable; i++){
+    for(unsigned i=0; i< char_avilable; i++){
         stdin_v.push_back(args.charAt(i));
     }
     return stdin_v.size();
