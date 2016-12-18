@@ -42,35 +42,20 @@ class DigitalPin {
     Pin p;
 };
 
-class App {
+class DigitalPort {
     public:
-    App(const char *HELP): HELP(HELP)
-    { };
+    DigitalPort() = default;
+    DigitalPort( std::vector<DigitalPin> dpins) : dpins(dpins)
+    {}
+
     int setup(){
         for( auto &d : this->dpins ){
             d.setup();
         }
-
-        this->setup_PV_help();
-        this->setup_PF_set();
-        this->setup_PF_get();
-
         return 0;
     }
-
     int add(DigitalPin o){this->dpins.push_back(o); return 0; } ;
-
-    int PF_set(String args){ return this->set(args.toInt()); }
-    int set(uint16_t v){
-        auto end = this->dpins.size();
-        auto bits = std::bitset<16>(v);
-        for( unsigned i=0; i< end; i++){
-            this->dpins[i].set( bits[i] );
-        }
-        return 0;
-    }
-
-int PF_get(String args){ return this->get(); }
+    
     int get(){
         auto end = this->dpins.size();
         auto bits = std::bitset<16>(0);
@@ -79,6 +64,49 @@ int PF_get(String args){ return this->get(); }
         }
         return bits.to_ulong();
     }
+    
+    int set(uint16_t v){
+        auto end = this->dpins.size();
+        auto bits = std::bitset<16>(v);
+        for( unsigned i=0; i< end; i++){
+            this->dpins[i].set( bits[i] );
+        }
+        return 0;
+    }
+    
+    private:
+    std::vector<DigitalPin> dpins;
+};
+
+class App {
+    public:
+    App(const char *HELP): HELP(HELP)
+    { };
+    App(const char *HELP, DigitalPort dport): HELP(HELP), dport(dport)
+    { };
+    
+    int setup(){
+        this->dport.setup();
+
+        this->setup_PV_help();
+        this->setup_PF_set();
+        this->setup_PF_get();
+
+        return 0;
+    }
+
+    int add(DigitalPin dpin){this->dport.add(dpin); return 0; } ;
+    int add(DigitalPort dport){this->dport = dport; return 0; } ;
+
+    int PF_set(String args){ return this->set(args.toInt()); }
+    int set(uint16_t v){
+        return this->dport.set(v);
+    }
+
+int PF_get(String args){ return this->get(); }
+    int get(){
+        return this->dport.get();
+    }
 
     bool setup_PV_help(){ return Particle.variable("help", this->HELP); }
     bool setup_PF_set(){ return Particle.function("set", &App::PF_set, this); }
@@ -86,7 +114,7 @@ int PF_get(String args){ return this->get(); }
 
     private:
     const char *HELP;
-    std::vector<DigitalPin> dpins;
+    DigitalPort dport;
 };
 
 namespace board {
