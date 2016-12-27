@@ -26,6 +26,7 @@ methods(Access=public)
         % If BytesAvailableFcnMode is byte, the bytes-available event executes the callback function specified for the BytesAvailableFcn property every time the number of bytes specified by BytesAvailableFcnCount is stored in the input buffer. If BytesAvailableFcnMode is terminator, the callback function executes every time the character specified by the Terminator property is read.
         % This event can be generated only during an asynchronous read operation.
         this.s.BytesAvailableFcnMode = 'terminator';
+        this.s.terminator = 10; % '\n' = LF = 10
         % this.s.BytesAvailableFcnCount = 64;
         this.s.BytesAvailableFcn = @this.on_recieve;
 
@@ -34,7 +35,7 @@ methods(Access=public)
     end
 
 %% Callbacks
-function on_recieve(this, obj, event)
+function on_recieve(this, obj, ~)
     BytesAvailable = obj.BytesAvailable;
     if(this.BytesAvailable)
         this.data = [this.data; {fscanf(obj)}];

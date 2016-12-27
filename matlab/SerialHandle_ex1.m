@@ -7,8 +7,8 @@
 home; clc; close all; clear;
 instrreset
 
-parker = SerialHandle('COM5', 'Parker');
+logan = SerialHandle('COM8', 'Logan');
 %parker.fprintf('%s', 'Hello Parker');
 
-matt = SerialHandle('COM3', 'Matt');
+%matt = SerialHandle('COM3', 'Matt');
 %matt.fprintf('%s', 'Hello Matt');
