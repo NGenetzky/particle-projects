@@ -1,0 +1,492 @@
+<TaskerData sr="" dvi="1" tv="4.8u5m">
+	<dmetric>540.0,888.0</dmetric>
+	<Scene sr="sceneParticle Scene">
+		<cdate>1463974069674</cdate>
+		<edate>1491101986088</edate>
+		<heightLand>-1</heightLand>
+		<heightPort>726</heightPort>
+		<nme>Particle Scene</nme>
+		<widthLand>-1</widthLand>
+		<widthPort>540</widthPort>
+		<EditTextElement sr="elements0" ve="3">
+			<flags>4</flags>
+			<geom>0,50,532,225,237,53,114,50</geom>
+			<Str sr="arg0" ve="3">Path</Str>
+			<Str sr="arg1" ve="3"/>
+			<Int sr="arg2" val="16"/>
+			<Int sr="arg3" val="100"/>
+			<Str sr="arg4" ve="3">#FF000000</Str>
+			<Str sr="arg5" ve="3"/>
+			<Int sr="arg6" val="0"/>
+			<Int sr="arg7" val="0"/>
+			<Int sr="arg8" val="1000"/>
+			<RectElement sr="background">
+				<flags>4</flags>
+				<geom>-1,-1,-1,-1,-1,-1,-1,-1</geom>
+				<Str sr="arg0" ve="3"/>
+				<Int sr="arg1" val="0"/>
+				<Str sr="arg2" ve="3"/>
+				<Str sr="arg3" ve="3"/>
+				<Int sr="arg4" val="0"/>
+				<Str sr="arg5" ve="3">#FF000000</Str>
+				<Int sr="arg6" val="0"/>
+				<Int sr="arg7" val="0"/>
+			</RectElement>
+		</EditTextElement>
+		<ButtonElement sr="elements1" ve="3">
+			<clickTask>13</clickTask>
+			<flags>4</flags>
+			<geom>357,550,175,173,175,399,175,176</geom>
+			<Str sr="arg0" ve="3">Execute</Str>
+			<Str sr="arg1" ve="3">Execute</Str>
+			<Int sr="arg2" val="16"/>
+			<Int sr="arg3" val="100"/>
+			<Str sr="arg4" ve="3">#FF000000</Str>
+			<Str sr="arg5" ve="3"/>
+			<Int sr="arg6" val="1"/>
+			<Img sr="arg7" ve="2">
+				<nme>hl_av_play</nme>
+			</Img>
+		</ButtonElement>
+		<EditTextElement sr="elements2" ve="3">
+			<flags>4</flags>
+			<geom>0,325,532,75,2,300,345,50</geom>
+			<valueselectedTask>16</valueselectedTask>
+			<Str sr="arg0" ve="3">Args</Str>
+			<Str sr="arg1" ve="3"/>
+			<Int sr="arg2" val="16"/>
+			<Int sr="arg3" val="100"/>
+			<Str sr="arg4" ve="3">#FF000000</Str>
+			<Str sr="arg5" ve="3"/>
+			<Int sr="arg6" val="0"/>
+			<Int sr="arg7" val="0"/>
+			<Int sr="arg8" val="1000"/>
+			<RectElement sr="background">
+				<flags>4</flags>
+				<geom>-1,-1,-1,-1,-1,-1,-1,-1</geom>
+				<Str sr="arg0" ve="3"/>
+				<Int sr="arg1" val="0"/>
+				<Str sr="arg2" ve="3">#A4F0F0F0</Str>
+				<Str sr="arg3" ve="3"/>
+				<Int sr="arg4" val="0"/>
+				<Str sr="arg5" ve="3">#FF000000</Str>
+				<Int sr="arg6" val="0"/>
+				<Int sr="arg7" val="0"/>
+			</RectElement>
+		</EditTextElement>
+		<ButtonElement sr="elements3" ve="3">
+			<clickTask>4</clickTask>
+			<flags>4</flags>
+			<geom>0,548,174,178,0,399,174,190</geom>
+			<Str sr="arg0" ve="3">Arm</Str>
+			<Str sr="arg1" ve="3">Arm</Str>
+			<Int sr="arg2" val="16"/>
+			<Int sr="arg3" val="100"/>
+			<Str sr="arg4" ve="3">#FF000000</Str>
+			<Str sr="arg5" ve="3"/>
+			<Int sr="arg6" val="1"/>
+			<Img sr="arg7" ve="2">
+				<nme>hl_ab_navigation_accept</nme>
+			</Img>
+		</ButtonElement>
+		<SpinnerElement sr="elements4">
+			<flags>4</flags>
+			<geom>182,475,355,75,2,78,345,74</geom>
+			<itemselectedTask>14</itemselectedTask>
+			<Str sr="arg0" ve="3">DoArg</Str>
+			<Int sr="arg1" val="1"/>
+			<Str sr="arg2" ve="3">%Argslist</Str>
+			<Scene sr="arg3">
+				<Scene sr="val">
+					<cdate>1464574283059</cdate>
+					<edate>1464574283059</edate>
+					<heightLand>83</heightLand>
+					<heightPort>83</heightPort>
+					<nme>spinner</nme>
+					<widthLand>299</widthLand>
+					<widthPort>299</widthPort>
+					<ImageElement sr="elements0" ve="2">
+						<flags>1</flags>
+						<geom>216,7,75,67,216,7,75,67</geom>
+						<Str sr="arg0" ve="3">Icon</Str>
+						<Img sr="arg1" ve="2">
+							<nme>hd_aaa_ext_tiles_small</nme>
+						</Img>
+						<Int sr="arg2" val="255"/>
+						<Str sr="arg3" ve="3">#FF0099CC</Str>
+					</ImageElement>
+					<TextElement sr="elements1" ve="3">
+						<flags>5</flags>
+						<geom>55,7,153,67,55,7,153,67</geom>
+						<Str sr="arg0" ve="3">Label</Str>
+						<Str sr="arg1" ve="3"/>
+						<Int sr="arg2" val="16"/>
+						<Int sr="arg3"/>
+						<Str sr="arg4" ve="3">#FFFFFFFF</Str>
+						<Str sr="arg5" ve="3"/>
+						<Int sr="arg6" val="3"/>
+						<Int sr="arg7"/>
+						<Int sr="arg8"/>
+					</TextElement>
+					<TextElement sr="elements2" ve="3">
+						<flags>1</flags>
+						<geom>7,7,47,67,7,7,47,67</geom>
+						<Str sr="arg0" ve="3">Index</Str>
+						<Str sr="arg1" ve="3">1.</Str>
+						<Int sr="arg2" val="16"/>
+						<Int sr="arg3"/>
+						<Str sr="arg4" ve="3">#FFFFFFFF</Str>
+						<Str sr="arg5" ve="3"/>
+						<Int sr="arg6" val="3"/>
+						<Int sr="arg7"/>
+						<Int sr="arg8"/>
+					</TextElement>
+					<PropertiesElement sr="props">
+						<Int sr="arg0" val="1"/>
+						<Int sr="arg1" val="0"/>
+						<Str sr="arg2" ve="3">#00000000</Str>
+						<Int sr="arg3" val="0"/>
+						<Str sr="arg4" ve="3">spinner</Str>
+						<Str sr="arg5" ve="3"/>
+						<Img sr="arg6" ve="2"/>
+						<Str sr="arg7" ve="3"/>
+					</PropertiesElement>
+				</Scene>
+			</Scene>
+			<Str sr="arg4" ve="3">#FF000000</Str>
+		</SpinnerElement>
+		<SpinnerElement sr="elements5">
+			<flags>4</flags>
+			<geom>0,400,180,150,2,250,172,74</geom>
+			<itemselectedTask>12</itemselectedTask>
+			<Str sr="arg0" ve="3">Device</Str>
+			<Int sr="arg1" val="0"/>
+			<Str sr="arg2" ve="3"/>
+			<Scene sr="arg3">
+				<Scene sr="val">
+					<cdate>1464575588799</cdate>
+					<edate>1464575588799</edate>
+					<heightLand>83</heightLand>
+					<heightPort>83</heightPort>
+					<nme>spinner</nme>
+					<widthLand>299</widthLand>
+					<widthPort>299</widthPort>
+					<ImageElement sr="elements0" ve="2">
+						<flags>1</flags>
+						<geom>216,7,75,67,216,7,75,67</geom>
+						<Str sr="arg0" ve="3">Icon</Str>
+						<Img sr="arg1" ve="2">
+							<nme>hd_aaa_ext_tiles_small</nme>
+						</Img>
+						<Int sr="arg2" val="255"/>
+						<Str sr="arg3" ve="3">#FF0099CC</Str>
+					</ImageElement>
+					<TextElement sr="elements1" ve="3">
+						<flags>5</flags>
+						<geom>55,7,153,67,55,7,153,67</geom>
+						<Str sr="arg0" ve="3">Label</Str>
+						<Str sr="arg1" ve="3"/>
+						<Int sr="arg2" val="16"/>
+						<Int sr="arg3"/>
+						<Str sr="arg4" ve="3">#FFFFFFFF</Str>
+						<Str sr="arg5" ve="3"/>
+						<Int sr="arg6" val="3"/>
+						<Int sr="arg7"/>
+						<Int sr="arg8"/>
+					</TextElement>
+					<TextElement sr="elements2" ve="3">
+						<flags>1</flags>
+						<geom>7,7,47,67,7,7,47,67</geom>
+						<Str sr="arg0" ve="3">Index</Str>
+						<Str sr="arg1" ve="3">1.</Str>
+						<Int sr="arg2" val="16"/>
+						<Int sr="arg3"/>
+						<Str sr="arg4" ve="3">#FFFFFFFF</Str>
+						<Str sr="arg5" ve="3"/>
+						<Int sr="arg6" val="3"/>
+						<Int sr="arg7"/>
+						<Int sr="arg8"/>
+					</TextElement>
+					<PropertiesElement sr="props">
+						<Int sr="arg0" val="1"/>
+						<Int sr="arg1" val="0"/>
+						<Str sr="arg2" ve="3">#00000000</Str>
+						<Int sr="arg3" val="0"/>
+						<Str sr="arg4" ve="3">spinner</Str>
+						<Str sr="arg5" ve="3"/>
+						<Img sr="arg6" ve="2"/>
+						<Str sr="arg7" ve="3"/>
+					</PropertiesElement>
+				</Scene>
+			</Scene>
+			<Str sr="arg4" ve="3">#FF000000</Str>
+			<ListElementItem sr="item0">
+				<label>Matt</label>
+				<sel>true</sel>
+				<Action sr="action" ve="7">
+					<code>547</code>
+					<Str sr="arg0" ve="3">%device</Str>
+					<Str sr="arg1" ve="3">%MATT</Str>
+					<Int sr="arg2" val="0"/>
+					<Int sr="arg3" val="0"/>
+				</Action>
+			</ListElementItem>
+			<ListElementItem sr="item1">
+				<label>Parker</label>
+				<Action sr="action" ve="7">
+					<code>547</code>
+					<Str sr="arg0" ve="3">%device</Str>
+					<Str sr="arg1" ve="3">%PARKER</Str>
+					<Int sr="arg2" val="0"/>
+					<Int sr="arg3" val="0"/>
+				</Action>
+			</ListElementItem>
+			<ListElementItem sr="item2">
+				<label>Eli</label>
+				<Action sr="action" ve="7">
+					<code>547</code>
+					<Str sr="arg0" ve="3">%device</Str>
+					<Str sr="arg1" ve="3">%ELI</Str>
+					<Int sr="arg2" val="0"/>
+					<Int sr="arg3" val="0"/>
+				</Action>
+			</ListElementItem>
+		</SpinnerElement>
+		<TextElement sr="elements6" ve="3">
+			<flags>4</flags>
+			<geom>0,0,532,53,0,3,347,50</geom>
+			<Str sr="arg0" ve="3">Label1</Str>
+			<Str sr="arg1" ve="3">Tasker for api.particle.io</Str>
+			<Int sr="arg2" val="16"/>
+			<Int sr="arg3" val="100"/>
+			<Str sr="arg4" ve="3">#FFFFFFFF</Str>
+			<Str sr="arg5" ve="3"/>
+			<Int sr="arg6" val="0"/>
+			<Int sr="arg7" val="0"/>
+			<Int sr="arg8" val="0"/>
+		</TextElement>
+		<SpinnerElement sr="elements7">
+			<flags>4</flags>
+			<geom>182,400,350,75,2,275,348,50</geom>
+			<itemselectedTask>8</itemselectedTask>
+			<Str sr="arg0" ve="3">Endpoint</Str>
+			<Int sr="arg1" val="0"/>
+			<Str sr="arg2" ve="3"/>
+			<Scene sr="arg3">
+				<Scene sr="val">
+					<cdate>1464576343369</cdate>
+					<edate>1464576343369</edate>
+					<heightLand>83</heightLand>
+					<heightPort>83</heightPort>
+					<nme>spinner</nme>
+					<widthLand>299</widthLand>
+					<widthPort>299</widthPort>
+					<ImageElement sr="elements0" ve="2">
+						<flags>1</flags>
+						<geom>216,7,75,67,216,7,75,67</geom>
+						<Str sr="arg0" ve="3">Icon</Str>
+						<Img sr="arg1" ve="2">
+							<nme>hd_aaa_ext_tiles_small</nme>
+						</Img>
+						<Int sr="arg2" val="255"/>
+						<Str sr="arg3" ve="3">#FF0099CC</Str>
+					</ImageElement>
+					<TextElement sr="elements1" ve="3">
+						<flags>5</flags>
+						<geom>55,7,153,67,55,7,153,67</geom>
+						<Str sr="arg0" ve="3">Label</Str>
+						<Str sr="arg1" ve="3"/>
+						<Int sr="arg2" val="16"/>
+						<Int sr="arg3"/>
+						<Str sr="arg4" ve="3">#FFFFFFFF</Str>
+						<Str sr="arg5" ve="3"/>
+						<Int sr="arg6" val="3"/>
+						<Int sr="arg7"/>
+						<Int sr="arg8"/>
+					</TextElement>
+					<TextElement sr="elements2" ve="3">
+						<flags>1</flags>
+						<geom>7,7,47,67,7,7,47,67</geom>
+						<Str sr="arg0" ve="3">Index</Str>
+						<Str sr="arg1" ve="3">1.</Str>
+						<Int sr="arg2" val="16"/>
+						<Int sr="arg3"/>
+						<Str sr="arg4" ve="3">#FFFFFFFF</Str>
+						<Str sr="arg5" ve="3"/>
+						<Int sr="arg6" val="3"/>
+						<Int sr="arg7"/>
+						<Int sr="arg8"/>
+					</TextElement>
+					<PropertiesElement sr="props">
+						<Int sr="arg0" val="1"/>
+						<Int sr="arg1" val="0"/>
+						<Str sr="arg2" ve="3">#00000000</Str>
+						<Int sr="arg3" val="0"/>
+						<Str sr="arg4" ve="3">spinner</Str>
+						<Str sr="arg5" ve="3"/>
+						<Img sr="arg6" ve="2"/>
+						<Str sr="arg7" ve="3"/>
+					</PropertiesElement>
+				</Scene>
+			</Scene>
+			<Str sr="arg4" ve="3">#FF000000</Str>
+			<ListElementItem sr="item0">
+				<label>do</label>
+				<sel>true</sel>
+				<Action sr="action" ve="7">
+					<code>547</code>
+					<Str sr="arg0" ve="3">%endpoint</Str>
+					<Str sr="arg1" ve="3">do</Str>
+					<Int sr="arg2" val="0"/>
+					<Int sr="arg3" val="0"/>
+				</Action>
+			</ListElementItem>
+		</SpinnerElement>
+		<PropertiesElement sr="props">
+			<Int sr="arg0" val="2"/>
+			<Int sr="arg1" val="2"/>
+			<Str sr="arg2" ve="3">#6FBABABA</Str>
+			<Int sr="arg3" val="0"/>
+			<Str sr="arg4" ve="3">Particle.Do Scene</Str>
+			<Str sr="arg5" ve="3"/>
+			<Img sr="arg6" ve="2"/>
+			<Str sr="arg7" ve="3"/>
+		</PropertiesElement>
+	</Scene>
+	<Task sr="task12">
+		<cdate>1464576791095</cdate>
+		<edate>1464576791095</edate>
+		<id>12</id>
+		<pri>102</pri>
+		<Action sr="act0" ve="7">
+			<code>547</code>
+			<Str sr="arg0" ve="3">%path</Str>
+			<Str sr="arg1" ve="3">/v1/devices/%device/%endpoint?access_token=%ACCESS_TOKEN</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+		</Action>
+		<Action sr="act1" ve="7">
+			<code>51</code>
+			<Str sr="arg0" ve="3">Particle Scene</Str>
+			<Str sr="arg1" ve="3">Path</Str>
+			<Int sr="arg2" val="0"/>
+			<Str sr="arg3" ve="3">%path</Str>
+			<Str sr="arg4" ve="3"/>
+		</Action>
+	</Task>
+	<Task sr="task13">
+		<cdate>1464579103633</cdate>
+		<edate>1464579103633</edate>
+		<id>13</id>
+		<pri>102</pri>
+		<Action sr="act0" ve="7">
+			<code>116</code>
+			<Str sr="arg0" ve="3">https://api.spark.io</Str>
+			<Str sr="arg1" ve="3">%path</Str>
+			<Str sr="arg2" ve="3">args=%args</Str>
+			<Str sr="arg3" ve="3"/>
+			<Str sr="arg4" ve="3"/>
+			<Int sr="arg5" val="10"/>
+			<Str sr="arg6" ve="3"/>
+			<Str sr="arg7" ve="3"/>
+			<Int sr="arg8" val="0"/>
+		</Action>
+		<Action sr="act1" ve="7">
+			<code>592</code>
+			<Str sr="arg0" ve="3">%header</Str>
+			<Str sr="arg1" ve="3">,</Str>
+			<Int sr="arg2" val="0"/>
+		</Action>
+		<Action sr="act2" ve="7">
+			<code>51</code>
+			<Str sr="arg0" ve="3">Particle Scene</Str>
+			<Str sr="arg1" ve="3">Path</Str>
+			<Int sr="arg2" val="0"/>
+			<Str sr="arg3" ve="3">%HTTPR - %header - %HTTPD</Str>
+			<Str sr="arg4" ve="3"/>
+		</Action>
+	</Task>
+	<Task sr="task14">
+		<cdate>1464579342991</cdate>
+		<edate>1464579342991</edate>
+		<id>14</id>
+		<pri>102</pri>
+		<Action sr="act0" ve="7">
+			<code>547</code>
+			<Str sr="arg0" ve="3">%args</Str>
+			<Str sr="arg1" ve="3">%tap_label</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+		</Action>
+		<Action sr="act1" ve="7">
+			<code>51</code>
+			<Str sr="arg0" ve="3">Particle Scene</Str>
+			<Str sr="arg1" ve="3">Args</Str>
+			<Int sr="arg2" val="0"/>
+			<Str sr="arg3" ve="3">%args</Str>
+			<Str sr="arg4" ve="3"/>
+		</Action>
+	</Task>
+	<Task sr="task16">
+		<cdate>1465076086056</cdate>
+		<edate>1465076086056</edate>
+		<id>16</id>
+		<pri>102</pri>
+		<Action sr="act0" ve="7">
+			<code>547</code>
+			<Str sr="arg0" ve="3">%args</Str>
+			<Str sr="arg1" ve="3">%new_val</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+		</Action>
+	</Task>
+	<Task sr="task4">
+		<cdate>1464574203600</cdate>
+		<edate>1464574203600</edate>
+		<id>4</id>
+		<pri>102</pri>
+		<Action sr="act0" ve="7">
+			<code>547</code>
+			<Str sr="arg0" ve="3">%path</Str>
+			<Str sr="arg1" ve="3">/v1/devices/%device/%endpoint?access_token=%ACCESS_TOKEN</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+		</Action>
+		<Action sr="act1" ve="7">
+			<code>51</code>
+			<Str sr="arg0" ve="3">Particle Scene</Str>
+			<Str sr="arg1" ve="3">Path</Str>
+			<Int sr="arg2" val="0"/>
+			<Str sr="arg3" ve="3">%path</Str>
+			<Str sr="arg4" ve="3"/>
+		</Action>
+		<Action sr="act2" ve="7">
+			<code>51</code>
+			<Str sr="arg0" ve="3">Particle Scene</Str>
+			<Str sr="arg1" ve="3">Args</Str>
+			<Int sr="arg2" val="0"/>
+			<Str sr="arg3" ve="3">%args</Str>
+			<Str sr="arg4" ve="3"/>
+		</Action>
+	</Task>
+	<Task sr="task8">
+		<cdate>1464576749053</cdate>
+		<edate>1464576749053</edate>
+		<id>8</id>
+		<Action sr="act0" ve="7">
+			<code>547</code>
+			<Str sr="arg0" ve="3">%path</Str>
+			<Str sr="arg1" ve="3">/v1/devices/%device/%endpoint?access_token=%ACCESS_TOKEN</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+		</Action>
+		<Action sr="act1" ve="7">
+			<code>51</code>
+			<Str sr="arg0" ve="3">Particle Scene</Str>
+			<Str sr="arg1" ve="3">Path</Str>
+			<Int sr="arg2" val="0"/>
+			<Str sr="arg3" ve="3">%path</Str>
+			<Str sr="arg4" ve="3"/>
+		</Action>
+	</Task>
+</TaskerData>

@@ -1,0 +1,50 @@
+<TaskerData sr="" dvi="1" tv="4.8u5m">
+	<Task sr="task15">
+		<cdate>1464586817112</cdate>
+		<edate>1491102116347</edate>
+		<id>15</id>
+		<nme>get_functions(device)</nme>
+		<pri>100</pri>
+		<Action sr="act0" ve="7">
+			<code>547</code>
+			<Str sr="arg0" ve="3">%par1</Str>
+			<Str sr="arg1" ve="3">%MATT</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+			<ConditionList sr="if">
+				<Condition sr="c0" ve="3">
+					<lhs>%par1</lhs>
+					<op>13</op>
+					<rhs></rhs>
+				</Condition>
+			</ConditionList>
+		</Action>
+		<Action sr="act1" ve="7">
+			<code>118</code>
+			<Str sr="arg0" ve="3">https://api.particle.io</Str>
+			<Str sr="arg1" ve="3">/v1/devices/%par1?access_token=%ACCESS_TOKEN</Str>
+			<Str sr="arg2" ve="3"/>
+			<Str sr="arg3" ve="3"/>
+			<Str sr="arg4" ve="3"/>
+			<Int sr="arg5" val="10"/>
+			<Str sr="arg6" ve="3"/>
+			<Str sr="arg7" ve="3"/>
+			<Int sr="arg8" val="0"/>
+		</Action>
+		<Action sr="act2" ve="7">
+			<code>129</code>
+			<Str sr="arg0" ve="3">var functions =[];
+var d = JSON.parse(global('HTTPD'))
+functions=d.functions;</Str>
+			<Str sr="arg1" ve="3"/>
+			<Int sr="arg2" val="1"/>
+			<Int sr="arg3" val="45"/>
+		</Action>
+		<Action sr="act3" ve="7">
+			<code>548</code>
+			<Str sr="arg0" ve="3">%functions1
+%HTTPD</Str>
+			<Int sr="arg1" val="1"/>
+		</Action>
+	</Task>
+</TaskerData>
