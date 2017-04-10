@@ -5,13 +5,26 @@ function [ Y ] = Freenove( device )
     reg.joyy = Register(device, 4);
     reg.joyx = Register(device, 5);
 
-    function [x,y] = get_joystick()
+    function [x,y] = get_joystick_pos()
         Analog12bit = @(a12) (a12/(2.^12));
         x12b = reg.joyx.get();
         y12b = reg.joyy.get();
-        x = Analog12bit( x12b )-0.5;
-        y = Analog12bit( y12b )-0.5;
+        xfloat = Analog12bit( x12b );
+        yfloat = Analog12bit( y12b );
+        x = xfloat - 0.5;
+        y = yfloat - 0.5;
+
+        % Calibration
+        % xcenter = 0.5; %0.7039;
+        % ycenter = 0.5; %0.4751;
+        % x = ((0.5+1) + (1-0.5)*((2*xfloat - (xcenter+1.0))/(1.0-xcenter)))/2;
+        % y = ((0.5+1) + (1-0.5)*((2*yfloat - (ycenter+1.0))/(1.0-ycenter)))/2;
+        %xcenter = 0.7039;
+        %ycenter = 0.4751;
+        %x = (xfloat<xcenter)*(xfloat*0.5/xcenter) + (xcenter<xfloat)*(xcenter + (xfloat-xcenter)*0.5/(1-xcenter));
+        %y = (yfloat<ycenter)*(yfloat*0.5/ycenter) + (ycenter<yfloat)*(ycenter + (yfloat-ycenter)*0.5/(1-ycenter));
     end
+    Y.get_joystick_pos = @get_joystick_pos
 
     function [h] = plot_joystick()
         figure;
@@ -24,7 +37,7 @@ function [ Y ] = Freenove( device )
 
         % Keep running until plot is closed.
         while( isvalid(joystick.plot) )
-            [joystick.x joystick.y] = get_joystick();
+            [joystick.x joystick.y] = get_joystick_pos();
             % joystick.x = [0, jx ];
             % joystick.y = [0, jy ];
             set(joystick.plot,          ...
