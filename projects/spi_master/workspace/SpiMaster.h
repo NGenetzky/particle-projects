@@ -21,26 +21,49 @@ struct SpiMaster{
     
     SpiMaster() = default;
     
+    void transfer(){
+        digitalWrite(this->slave_select, HIGH);
+        
+        SPI.transfer(this->tx_buffer, this->rx_buffer,
+                    this->tx_available, NULL);
+        this->rx_available = tx_available;
+        this->tx_available = 0;
+        
+        digitalWrite(this->slave_select, LOW);
+    }
+    
+    void flush() {
+        if(this->tx_available){
+            this->transfer();
+        }
+    }
+    // void transfer_done(){ } // TOOD
+    
     const char* PV_rx(){return (char*) rx_buffer;};
     const char* PV_tx(){return (char*) tx_buffer;};
-    // void transfer_done(){ } // TOOD
+    
+    int PF_tx_set( String str ){
+        if( SPI_BUFFER_SIZE < str.length() ){
+            return 0 - str.length();
+        }
+        str.getBytes(this->tx_buffer, 64);
+        this->tx_available = str.length();
+        return this->tx_available;
+    }
+    
+    int PF_transfer( String str ){
+        auto rv = this->PF_tx_set(str);
+        if( 0< rv){
+            this->flush();
+        }
+        return rv;
+    }
     
     void setup(){
         SPI.setClockSpeed(15, MHZ);
         SPI.setBitOrder(LSBFIRST);
         SPI.setDataMode(SPI_MODE0);
         SPI.begin(SPI_MODE_MASTER, this->slave_select);
-    }
-    
-    void transfer(){
-        digitalWrite(this->slave_select, HIGH);
-        
-        SPI.transfer(this->tx_buffer, this->rx_buffer,
-                    this->tx_available, NULL);
-        
-        digitalWrite(this->slave_select, LOW);
-        this->rx_available = tx_available;
-        this->tx_available = 0;
     }
     
 };
