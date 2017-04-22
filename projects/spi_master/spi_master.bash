@@ -12,6 +12,7 @@ project=$(pwd)
 ## *****************************************************************************
 # Internal
 ln -f "${project}/src/spi_master.cpp" "${project}/workspace/spi_master.cpp"
+ln -f "${project}/include/SpiMaster.h" "${project}/workspace/SpiMaster.h"
 
 # External (EE491)
 ln -f "${repo}/ee491/firmware/Pin.h" "${project}/workspace/Pin.h"
