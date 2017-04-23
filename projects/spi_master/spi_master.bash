@@ -16,6 +16,7 @@ ln -f "${project}/src/spi_master.cpp" "${project}/workspace/spi_master.cpp"
 ln -f "${project}/include/SpiMaster.h" "${project}/workspace/SpiMaster.h"
 ln -f "${project}/include/JtagTapState.h" "${project}/workspace/JtagTapState.h"
 ln -f "${project}/include/BinaryLiteral.h" "${project}/workspace/BinaryLiteral.h"
+ln -f "${project}/include/spi_jtag.h" "${project}/workspace/spi_jtag.h"
 
 # External (EE491)
 # ln -f "${repo}/ee491/firmware/Pin.h" "${project}/workspace/Pin.h"
