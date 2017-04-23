@@ -9,6 +9,24 @@
 // MOSI => A5
 // SPISettings{ 4*MHZ, MSBFIRST, SPI_MODE0 };
 
+String uint8_array_to_string_asci( uint8_t *data, unsigned len){
+    String received;
+    received.reserve(len+1);
+    for (unsigned i = 0; i < len; i++) {
+        received += char(data[i]);
+    }
+    return received;
+}
+
+String uint8_array_to_string_hex( uint8_t *data, unsigned len){
+    String received;
+    received.reserve( 3*(len+1) );
+    for (unsigned i = 0; i < len; i++) {
+        received += String::format("%02x ", data[i]);
+    }
+    return received;
+}
+
 #define SPI_BUFFER_SIZE 64
 
 struct SpiMaster{
@@ -22,14 +40,16 @@ struct SpiMaster{
     SpiMaster() = default;
     
     void transfer(){
-        digitalWrite(this->slave_select, HIGH);
+        this->PUB_spi_tx_hex();
         
+        digitalWrite(this->slave_select, HIGH);
         SPI.transfer(this->tx_buffer, this->rx_buffer,
                     this->tx_available, NULL);
+        digitalWrite(this->slave_select, LOW);
+        
         this->rx_available = tx_available;
         this->tx_available = 0;
-        
-        digitalWrite(this->slave_select, LOW);
+        this->PUB_spi_rx_hex();
     }
     
     void flush() {
@@ -67,6 +87,21 @@ struct SpiMaster{
             this->flush();
         }
         return rv;
+    }
+    
+    void PUB_spi_rx_asci(){
+        auto s = uint8_array_to_string_asci(this->rx_buffer, this->rx_available);
+        Particle.publish("spi_rx_asci", s);
+    }
+    
+    void PUB_spi_rx_hex(){
+        auto s = uint8_array_to_string_hex(this->rx_buffer, this->rx_available);
+        Particle.publish("spi_rx_hex", s);
+    }
+    
+    void PUB_spi_tx_hex(){
+        auto s = uint8_array_to_string_hex(this->tx_buffer, this->tx_available);
+        Particle.publish("spi_tx_hex", s);
     }
     
     void setup(){
