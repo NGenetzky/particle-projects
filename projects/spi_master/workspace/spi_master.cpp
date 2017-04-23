@@ -4,6 +4,7 @@
 // *****************************************************************************
 #include "SpiMaster.h"
 #include "JtagTapState.h"
+#include "BinaryLiteral.h"
 #include "application.h" // Required for Particle.
 
 // *****************************************************************************
@@ -53,23 +54,19 @@ void loop(){
 // User Functions
 // *****************************************************************************
 uint8_t jtag_tms(JtagTapState a, JtagTapState b){
-    if(JtagTapState::TEST_LOGIC_RESET != a){
-        return 0xFF;
-    }
-    switch(b){
-        //case(CURRENT_STATE): return TXTX;  //1
-        case(JtagTapState::TEST_LOGIC_RESET):   return 0xFF; //1
-        case(JtagTapState::RUN_TEST_IDLE):      return 0x7F; //0
-        
-        case(JtagTapState::SELECT_DR):          return 0xBF; //10
-        case(JtagTapState::SELECT_IR):          return 0xDF; //110
-        
-        // case(JtagTapState::CAPTURE_DR):          return 0xBF; //10
-        // case(JtagTapState::CAPTURE_IR):          return 0xDF; //110
-        
-        case(JtagTapState::SHIFT_DR):           return 0x2F; //0010
-        case(JtagTapState::SHIFT_IR):           return 0x2F; //0010
-        default:                                return 0xFF;
+    switch(a){
+        case(JtagTapState::TEST_LOGIC_RESET):
+            switch(b){
+                //case(CURRENT_STATE):                 return  B(76543210);  //last_first
+                case(JtagTapState::TEST_LOGIC_RESET):  return  B(11111111);  //1
+                case(JtagTapState::RUN_TEST_IDLE):     return  B(01111111);  //0
+                case(JtagTapState::SHIFT_DR):          return  B(00101111);  //0010
+                case(JtagTapState::SHIFT_IR):          return  B(00110111);  //00110
+                case(JtagTapState::PAUSE_DR):          return  B(01010111);  //01010
+                case(JtagTapState::PAUSE_IR):          return  B(01011011);  //010110
+                default:                                return 0xFF;
+            }
+        default: return 0xFF;
     }
 }
 
