@@ -51,6 +51,16 @@ struct SpiMaster{
         return this->tx_available;
     }
     
+    int tx_set( int v ){
+        tx_buffer[0] = (v & 0xFF); // TODO
+        this->tx_available = 1;
+        return this->tx_available;
+    }
+    int PF_tx_set_dec( String str ){
+        auto i = str.toInt(); // TODO handle str=='0'
+        return this->tx_set(i);
+    }
+    
     int PF_transfer( String str ){
         auto rv = this->PF_tx_set(str);
         if( 0< rv){
