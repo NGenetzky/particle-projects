@@ -5,7 +5,8 @@
 # set -x
 set -e
 repo=$(git rev-parse --show-cdup)
-project=$(pwd)
+project="${repo}/projects/spi_slave"
+[ -d $project ] || project=$(pwd) # backup project.
 
 ## *****************************************************************************
 ## Files

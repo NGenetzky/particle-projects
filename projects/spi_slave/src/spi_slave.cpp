@@ -13,8 +13,9 @@ enum class SlaveState{
 SlaveState state = SlaveState::RESET;
 
 // SPI slave example
-static uint8_t rx_buffer[64];
-static uint8_t tx_buffer[64];
+constexpr unsigned SPI_BUFFER_SIZE = 1;
+static uint8_t rx_buffer[SPI_BUFFER_SIZE];
+static uint8_t tx_buffer[SPI_BUFFER_SIZE];
 
 void onTransferFinished() {
     state = SlaveState::POST_TRANSFER;
@@ -51,7 +52,7 @@ void rx_buffer_to_publish(){
         String::format("Received %d bytes", SPI.available())
         );
     String received;
-    received.reserve(64+1);
+    received.reserve(SPI_BUFFER_SIZE+1);
     for (int i = 0; i < SPI.available(); i++) {
         received += char(rx_buffer[i]);
         // received += String::format("%02x ", rx_buffer[i]);
@@ -60,8 +61,10 @@ void rx_buffer_to_publish(){
     // Particle.publish("spi_rx_data", received);
 }
 
-/* executes once at startup */
+// executes once at startup
 void setup() {
+    Particle.publish("spi_slave", "setup");
+    
 #ifdef SERIAL_EN
     Serial.begin(9600);
 #endif
@@ -73,7 +76,7 @@ void setup() {
     pinMode(D7, OUTPUT);
 }
 
-/* executes continuously after setup() runs */
+// executes continuously after setup() runs
 void loop() {
     switch(state) {
         default:
@@ -83,7 +86,10 @@ void loop() {
 
         case SlaveState::SELECTED:
             digitalWrite(D7, 1);
-            SPI.transfer(tx_buffer, rx_buffer, sizeof(rx_buffer), onTransferFinished);
+            
+            SPI.transfer(tx_buffer, rx_buffer,
+                sizeof(rx_buffer), onTransferFinished);
+                
             state = SlaveState::TRANSFERING;
             break;
             
