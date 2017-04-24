@@ -41,3 +41,40 @@ inline uint8_t jtag_tms(JtagTapState a, JtagTapState b){
         default: return B(11111111);
     }
 }
+
+struct JtagTap {
+    const unsigned slave_select = A2;
+    JtagTapState state = JtagTapState::TEST_LOGIC_RESET;
+    SPISettings settings = SPISettings(15*MHZ, LSBFIRST, SPI_MODE0);
+    
+    JtagTap() = default;
+    
+    uint8_t transfer(uint8_t tx){
+        digitalWrite(this->slave_select, HIGH);
+        SPI.beginTransaction(this->settings);
+        auto rx = SPI.transfer(tx);
+        SPI.endTransaction();
+        digitalWrite(this->slave_select, LOW);
+        return rx;
+    }
+    
+    bool goto_state(JtagTapState next_state){
+        this->transfer(jtag_tms(this->state, next_state));
+        this->state = next_state;
+    }
+};
+
+// struct JtagDevice {
+//     const unsigned cs_tap = A2;
+//     const unsigned cs_jtag = A3;
+//     JtagDevice() = default;
+    
+//     unsigned ir_shift(unsigned len, uint64_t value){
+        
+//     }
+    
+//     unsigned dr_shift(unsigned len, uint64_t value){
+        
+//     }
+    
+// };

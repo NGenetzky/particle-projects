@@ -27,24 +27,35 @@ String uint8_array_to_string_hex( uint8_t *data, unsigned len){
     return received;
 }
 
-#define SPI_BUFFER_SIZE 64
-
 struct SpiMaster{
+    // SPI Configuration:
+    unsigned slave_select = SS;
+    SPISettings settings = SPISettings(15*MHZ, LSBFIRST, SPI_MODE0);
+    // SPI Data:
     // +1 so data is always null terminated.
+    static constexpr unsigned SPI_BUFFER_SIZE = 64;
     uint8_t rx_buffer[SPI_BUFFER_SIZE+1] = {0};
     uint8_t tx_buffer[SPI_BUFFER_SIZE+1] = {0};
-    unsigned slave_select = SS;
     unsigned tx_available = 0;
     unsigned rx_available = 0;
     
     SpiMaster() = default;
+    SpiMaster(unsigned slave_select)
+        : slave_select(slave_select)
+    { }
+    SpiMaster(unsigned slave_select, SPISettings settings)
+        : slave_select(slave_select)
+        , settings(settings)
+    { }
     
     void transfer(){
         this->PUB_spi_tx_hex();
         
         digitalWrite(this->slave_select, HIGH);
+        SPI.beginTransaction(this->settings);
         SPI.transfer(this->tx_buffer, this->rx_buffer,
                     this->tx_available, NULL);
+        SPI.endTransaction();
         digitalWrite(this->slave_select, LOW);
         
         this->rx_available = tx_available;
@@ -52,12 +63,17 @@ struct SpiMaster{
         this->PUB_spi_rx_hex();
     }
     
+    
     void flush() {
         if(this->tx_available){
             this->transfer();
         }
     }
     // void transfer_done(){ } // TOOD
+    
+    void setup(){
+        SPI.begin(SPI_MODE_MASTER, this->slave_select);
+    }
     
     const char* PV_rx(){return (char*) rx_buffer;};
     const char* PV_tx(){return (char*) tx_buffer;};
@@ -104,11 +120,5 @@ struct SpiMaster{
         Particle.publish("spi_tx_hex", s);
     }
     
-    void setup(){
-        SPI.setClockSpeed(15, MHZ);
-        SPI.setBitOrder(LSBFIRST);
-        SPI.setDataMode(SPI_MODE0);
-        SPI.begin(SPI_MODE_MASTER, this->slave_select);
-    }
     
 };

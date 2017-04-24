@@ -20,6 +20,7 @@ int PF_jtag( String args );
 // Global Variables
 // *****************************************************************************
 auto spi = SpiMaster{};
+auto jtag_tap = JtagTap();
 
 // *****************************************************************************
 // Global Variables - Particle Cloud
@@ -57,6 +58,7 @@ void loop(){
 
 int PF_jtag( String args ){
     auto iarg = args.toInt();
-    spi.tx_set(jtag_tms(JtagTapState::TEST_LOGIC_RESET,
-                        JtagTapState(iarg)));
+    return jtag_tap.goto_state(JtagTapState(iarg));
+    // spi.tx_set(jtag_tms(JtagTapState::TEST_LOGIC_RESET,
+    //                     JtagTapState(iarg)));
 }
