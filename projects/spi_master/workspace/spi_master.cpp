@@ -5,7 +5,7 @@
 #include "SpiMaster.h"
 #include "JtagTapState.h"
 #include "BinaryLiteral.h"
-#include "spi_jtag.h"
+#include "JtagTap.h"
 #include "application.h" // Required for Particle.
 
 // *****************************************************************************
