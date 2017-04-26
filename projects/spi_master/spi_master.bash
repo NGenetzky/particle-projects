@@ -17,6 +17,8 @@ ln -f "${project}/include/SpiMaster.h" "${project}/workspace/SpiMaster.h"
 ln -f "${project}/include/JtagTapState.h" "${project}/workspace/JtagTapState.h"
 ln -f "${project}/include/BinaryLiteral.h" "${project}/workspace/BinaryLiteral.h"
 ln -f "${project}/include/JtagTap.h" "${project}/workspace/JtagTap.h"
+ln -f "${project}/include/jtag_tap_route.h" "${project}/workspace/jtag_tap_route.h"
+ln -f "${project}/include/JtagDevice.h" "${project}/workspace/JtagDevice.h"
 
 # External (EE491)
 # ln -f "${repo}/ee491/firmware/Pin.h" "${project}/workspace/Pin.h"
