@@ -13,14 +13,13 @@
 // *****************************************************************************
 void setup();
 void loop();
-uint8_t jtag_tms(JtagTapState a, JtagTapState b);
 int PF_jtag( String args );
 
 // *****************************************************************************
 // Global Variables
 // *****************************************************************************
-auto spi = SpiMaster{};
-auto jtag_tap = JtagTap();
+auto spi = SpiMaster{A1};
+auto jtag_tap = JtagTap(); // A2
 
 // *****************************************************************************
 // Global Variables - Particle Cloud
@@ -37,6 +36,7 @@ void setup(){
     Particle.publish("spi_master", "setup");
     
     spi.setup();
+    jtag_tap.setup();
     
     // *****************************************************************************
     // Setup - Particle Cloud
