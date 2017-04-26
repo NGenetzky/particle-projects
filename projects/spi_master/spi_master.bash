@@ -19,6 +19,7 @@ ln -f "${project}/include/BinaryLiteral.h" "${project}/workspace/BinaryLiteral.h
 ln -f "${project}/include/JtagTap.h" "${project}/workspace/JtagTap.h"
 ln -f "${project}/include/jtag_tap_route.h" "${project}/workspace/jtag_tap_route.h"
 ln -f "${project}/include/JtagDevice.h" "${project}/workspace/JtagDevice.h"
+ln -f "${project}/include/ParticleSpi.h" "${project}/workspace/ParticleSpi.h"
 
 # External (EE491)
 # ln -f "${repo}/ee491/firmware/Pin.h" "${project}/workspace/Pin.h"
