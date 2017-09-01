@@ -1,12 +1,14 @@
 #pragma once
+
 #include "application.h" // Required for Particle.
 #include <vector>
 #include <bitset>
 #include <algorithm>
-#include "DigitalPin.h"
+
+#include "iot/DigitalPin.h"
 
 // Only required for Constants in tinker_handler.
-#include "Tinker.h"
+// #include "Tinker.h"
 
 namespace iot {
 
@@ -23,6 +25,10 @@ class DigitalPort {
         return 0;
     }
 
+    bool setup_PF_dport()
+    {
+        return Particle.function( "dport", &DigitalPort::PF_dport, this );
+    }
     bool setup_PF_set()
     {
         return Particle.function( "set", &DigitalPort::PF_set, this );

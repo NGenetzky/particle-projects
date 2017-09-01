@@ -6,3 +6,4 @@
 
 #include "iot/Pin.h"
 #include "iot/DigitalPin.h"
+#include "iot/DigitalPort.h"
