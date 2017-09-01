@@ -10,3 +10,5 @@
 
 #include "iot/Register.h"
 #include "iot/RegisterBank.h"
+
+#include "iot/LEDStatusRegister.h"
