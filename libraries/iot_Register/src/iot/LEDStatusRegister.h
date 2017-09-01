@@ -1,7 +1,7 @@
 
 #pragma once
 #include "application.h" // Required for Particle.
-#include "Register.h"
+#include "iot/Register.h"
 
 namespace iot{
     
