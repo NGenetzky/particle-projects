@@ -7,3 +7,6 @@
 #include "iot/Pin.h"
 #include "iot/DigitalPin.h"
 #include "iot/DigitalPort.h"
+
+#include "iot/Register.h"
+#include "iot/RegisterBank.h"
