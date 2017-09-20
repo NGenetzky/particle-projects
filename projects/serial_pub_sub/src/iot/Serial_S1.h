@@ -4,24 +4,32 @@
 
 namespace iot {
     
-    int PF_s1_write( String msg )
+    int PF_s1_print( String msg )
     {
-        return Serial1.write(msg);
+        return Serial1.print(msg);
+    }
+    int PF_s1_println( String msg )
+    {
+        return Serial1.println(msg);
     }
     
-    bool setup_PF_s1_write( const char *name = "s0")
+    bool setup_PF_s1_print( const char *name = "s1_print")
     {
-        return Particle.function(name, iot::PF_s1_write);
+        return Particle.function(name, iot::PF_s1_print);
+    }
+    bool setup_PF_s1_println( const char *name = "s1_println")
+    {
+        return Particle.function(name, iot::PF_s1_println);
     }
     
-    void PS_s1_write(const char *event, const char *data)
+    void PS_s1_print(const char *event, const char *data)
     {
-        Serial1.write(data);
+        Serial1.print(data);
     }
     
-    bool setup_PS_s1_write( const char *name = "ttyS0")
+    bool setup_PS_s1_print( const char *name = "ttyS0")
     {
-        return Particle.subscribe(name, iot::PS_s1_write, MY_DEVICES);
+        return Particle.subscribe(name, iot::PS_s1_print, MY_DEVICES);
     }
     
     class Serial_S1
@@ -32,6 +40,11 @@ namespace iot {
         {
             Serial1.begin(baud); // via TX/RX pins
             return 0;
+        }
+        
+        unsigned available()
+        {
+            return this->buffer.size();
         }
         
         void publish_buffer( const char *name = "s1")

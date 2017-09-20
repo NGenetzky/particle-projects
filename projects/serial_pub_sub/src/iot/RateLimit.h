@@ -3,7 +3,7 @@
 #pragma once
 #include "application.h" // Required for Particle.
 
-#define RATELIMIT_PUBLISH_WHEN_GET_FAILS
+// #define RATELIMIT_PUBLISH_WHEN_GET_FAILS
 
 namespace iot {
     

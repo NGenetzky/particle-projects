@@ -15,25 +15,6 @@ iot::RateLimit s1_rl(1, 5000);
 iot::Serial_S1 s1;
 std::vector<char> s0i;
 
-// setup() runs once, when the device is first turned on.
-void setup() {
-  // Put initialization like pinMode and begin functions here.
-    Serial.begin();
-    
-    s1.setup(9600);
-    iot::setup_PF_s1_write("s1");
-    iot::setup_PS_s1_write("ttyS0");
-    s1_rl.setup();
-    
-    Particle.publish("setup()", "completed");
-}
-
-// loop() runs over and over again, as quickly as it can execute.
-void loop() {
-  // The core of your code will likely live here.
-
-}
-
 void s0_publish()
 {
     s0i.push_back('\0');
@@ -47,6 +28,34 @@ void s1_maybe_publish()
         s1.publish_buffer();
     }
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+// main
+// setup() runs once, when the device is first turned on.
+void setup() {
+  // Put initialization like pinMode and begin functions here.
+    Serial.begin();
+    
+    s1.setup(115200);
+    
+    iot::setup_PF_s1_print("s1_print");
+    iot::setup_PF_s1_println("s1_println");
+    iot::setup_PS_s1_print("ttyS0");
+    s1_rl.setup();
+    
+    Particle.publish("setup()", "completed");
+}
+
+// loop() runs over and over again, as quickly as it can execute.
+void loop() {
+    // The core of your code will likely live here.
+    if(s1.available()) {
+        s1_maybe_publish();
+    }
+}
+//
+////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
 // serialEvent()
@@ -75,6 +84,5 @@ void serialEvent(){
 }
 void serialEvent1(){ 
     s1.on_serial_event();
-    s1_maybe_publish();
 }
 ////////////////////////////////////////////////////////////////////////////////
