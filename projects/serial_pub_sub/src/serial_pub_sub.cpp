@@ -8,6 +8,9 @@
 #include "application.h"
 #include <vector>
 #include "iot/Serial_S1.h"
+#include "iot/RateLimit.h"
+
+iot::RateLimit s1_rl(1, 5000);
 
 iot::Serial_S1 s1;
 std::vector<char> s0i;
@@ -20,6 +23,7 @@ void setup() {
     s1.setup(9600);
     iot::setup_PF_s1_write("s1");
     iot::setup_PS_s1_write("ttyS0");
+    s1_rl.setup();
     
     Particle.publish("setup()", "completed");
 }
@@ -35,6 +39,13 @@ void s0_publish()
     s0i.push_back('\0');
     Particle.publish("s0i", s0i.data());
     s0i.clear();
+}
+
+void s1_maybe_publish()
+{
+    if(s1_rl.get()) {
+        s1.publish_buffer();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -64,5 +75,6 @@ void serialEvent(){
 }
 void serialEvent1(){ 
     s1.on_serial_event();
+    s1_maybe_publish();
 }
 ////////////////////////////////////////////////////////////////////////////////

@@ -51,7 +51,6 @@ namespace iot {
             for(auto i=0; i< char_available; i++){
                 this->buffer.push_back(Serial1.read());
             }
-            this->publish_buffer();
         }
         
         private:
